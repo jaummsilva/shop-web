@@ -2,7 +2,7 @@ import { isAxiosError } from 'axios'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { Header } from '@/components/header'
+import { AdminHeader } from '@/components/header-admin'
 import { api } from '@/lib/axios'
 
 export function AdminLayout() {
@@ -29,7 +29,7 @@ export function AdminLayout() {
   }, [navigate])
   return (
     <div className="flex min-h-screen flex-col antialiased">
-      <Header />
+      <AdminHeader />
       <div className="flex flex-1 flex-col gap-4 p-8 pt-6">
         <Outlet />
       </div>

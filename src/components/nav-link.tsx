@@ -1,5 +1,4 @@
-import { LinkProps } from 'react-helmet-async'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, type LinkProps, useLocation } from 'react-router-dom'
 
 export type NavLinkProps = LinkProps
 

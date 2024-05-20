@@ -1,10 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { AdminLayout } from './pages/admin/_layouts/admin'
-import { AdminAuthLayout } from './pages/admin/_layouts/admin-auth'
-import { AdminSignIn } from './pages/admin/auth/sign-in'
+import { AdminNotFound } from './pages/admin/404'
 import { Products } from './pages/admin/products/products'
+import { StoreLayout } from './pages/app/_layouts/store'
 import { NotFound } from './pages/app/404'
+import { AuthLayout } from './pages/app/auth'
+import { SignIn } from './pages/app/auth/sign-in'
 import { Error } from './pages/app/error'
 
 export const router = createBrowserRouter([
@@ -15,12 +17,21 @@ export const router = createBrowserRouter([
     children: [{ path: 'products', element: <Products /> }],
   },
   {
-    path: '/admin',
-    element: <AdminAuthLayout />,
-    children: [{ path: 'sign-in', element: <AdminSignIn /> }],
+    path: '/',
+    element: <StoreLayout />,
+    errorElement: <Error />,
   },
   {
-    path: '*',
+    path: '/sign-in',
+    element: <AuthLayout />,
+    children: [{ path: '', element: <SignIn /> }],
+  },
+  {
+    path: '/admin/*',
+    element: <AdminNotFound />,
+  },
+  {
+    path: '/*',
     element: <NotFound />,
   },
 ])

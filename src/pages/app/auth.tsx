@@ -1,7 +1,7 @@
 import { ShoppingCart } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
 
-export function AdminAuthLayout() {
+export function AuthLayout() {
   return (
     <div className="grid min-h-screen grid-cols-2 antialiased">
       <div className="border-right flex h-full flex-col justify-between border-foreground/5 bg-muted p-10 text-muted-foreground">
