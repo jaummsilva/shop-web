@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { UserSheetCreate } from './user-sheet-create'
 import { UserTableFilters } from './user-table-filters'
 import { UserTableRow } from './user-table-row'
 import { UserTableSkeleton } from './user-table-skeleton'
@@ -85,7 +86,15 @@ export function UsersPage() {
       </div>
       <Separator />
       <div className="mt-4 space-y-2.5">
-        <UserTableFilters />
+        <div className="flex flex-row justify-between gap-2">
+          <div>
+            <UserTableFilters />
+          </div>
+          <div>
+            <UserSheetCreate />
+          </div>
+        </div>
+
         <div className="rounded-md border">
           <Table>
             <TableHeader>
@@ -93,8 +102,8 @@ export function UsersPage() {
                 <TableHead>Nome</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Telefone</TableHead>
-                <TableHead>Data de Nascimento</TableHead>
                 <TableHead>Perfil</TableHead>
+                <TableHead>Data de Nascimento</TableHead>
                 <TableHead>Ações</TableHead>
               </TableRow>
             </TableHeader>
