@@ -1,6 +1,6 @@
 import { Home, Pizza, User, UtensilsCrossed } from 'lucide-react'
 
-import { AccountMenu } from './account-menu'
+import { AdminAccountMenu } from './admin-account-menu'
 import { NavLink } from './nav-link'
 import { ThemeToggle } from './theme/theme-toggle'
 import { Separator } from './ui/separator'
@@ -27,7 +27,7 @@ export function AdminHeader() {
         </nav>
         <div className="ml-auto flex cursor-pointer items-center gap-2">
           <ThemeToggle />
-          <AccountMenu />
+          <AdminAccountMenu />
         </div>
       </div>
     </div>

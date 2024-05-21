@@ -5,6 +5,7 @@ import { AdminNotFound } from './pages/admin/404'
 import { AdminAuthLayout } from './pages/admin/auth'
 import { AdminSignIn } from './pages/admin/auth/sign-in'
 import { Products } from './pages/admin/products/products'
+import { UsersPage } from './pages/admin/users/page'
 import { StoreLayout } from './pages/app/_layouts/store'
 import { NotFound } from './pages/app/404'
 import { AuthLayout } from './pages/app/auth'
@@ -16,7 +17,10 @@ export const router = createBrowserRouter([
     path: '/admin',
     element: <AdminLayout />,
     errorElement: <Error />,
-    children: [{ path: 'products', element: <Products /> }],
+    children: [
+      { path: 'products', element: <Products /> },
+      { path: 'users', element: <UsersPage /> },
+    ],
   },
   {
     path: '/admin',

@@ -1,5 +1,9 @@
-import { Building, ChevronDown, LogOut } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { ChevronDown, LogOut } from 'lucide-react'
+import nookies from 'nookies'
+import { useNavigate } from 'react-router-dom'
 
+import { getProfile } from '@/api/get-profile'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -9,46 +13,82 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { queryClient } from '@/lib/react-query'
 
-import { Dialog, DialogTrigger } from './ui/dialog'
+import { Dialog } from './ui/dialog'
+import { Skeleton } from './ui/skeleton'
 
 export function AccountMenu() {
+  const navigate = useNavigate()
+
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
+    refetchOnWindowFocus: false, // Evita refetch ao focar na janela
+  })
+
+  async function handleLogout() {
+    nookies.destroy(null, 'token')
+    nookies.destroy(null, 'refreshToken')
+    await queryClient.invalidateQueries({
+      queryKey: ['profile'],
+    })
+    navigate('/')
+  }
+
+  function handleLogin() {
+    navigate('/sign-in')
+  }
+
   return (
-    <Dialog>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            className="flex select-none items-center gap-2"
-          >
-            <ChevronDown className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel className="flex flex-col">
-            <span>teste</span>
-            <span className="text-xs font-normal text-muted-foreground">
-              teste
-            </span>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DialogTrigger asChild>
-            <DropdownMenuItem className="cursor-pointer gap-1.5">
-              <Building className="h-4 w-4" />
-              <span>Perfil da loja</span>
-            </DropdownMenuItem>
-          </DialogTrigger>
-          <DropdownMenuItem
-            asChild
-            className="cursor-pointer gap-1.5 text-rose-500 dark:text-rose-400"
-          >
-            <button className="w-full">
-              <LogOut className="h-4 w-4" />
-              <span>Sair</span>
-            </button>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </Dialog>
+    <>
+      {isLoadingProfile ? (
+        <Button type="button" variant="default" onClick={handleLogin}>
+          Entrar
+        </Button>
+      ) : (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="flex select-none items-center gap-2"
+              >
+                {profile && profile.data.user.name}
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel className="flex flex-col">
+                <span>
+                  {isLoadingProfile ? (
+                    <Skeleton className="h-4 w-40" />
+                  ) : (
+                    profile?.data.user.name
+                  )}
+                </span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {isLoadingProfile ? (
+                    <Skeleton className="h-4 w-40" />
+                  ) : (
+                    profile?.data.user.email
+                  )}
+                </span>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                asChild
+                className="cursor-pointer gap-1.5 text-rose-500 dark:text-rose-400"
+              >
+                <button className="w-full" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4" />
+                  <span>Sair</span>
+                </button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </Dialog>
+      )}
+    </>
   )
 }
