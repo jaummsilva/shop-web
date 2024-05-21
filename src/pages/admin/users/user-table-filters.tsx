@@ -62,11 +62,13 @@ export function UserTableFilters() {
   function handleFilterReset() {
     setSearchParams((state) => {
       state.delete('name')
+      state.delete('perPage')
       state.set('page', '1')
       return state
     })
     reset({
       name: '',
+      perPage: '10',
     })
   }
 
