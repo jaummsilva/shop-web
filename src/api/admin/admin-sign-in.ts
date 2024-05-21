@@ -5,12 +5,13 @@ export interface SignInBody {
   password: string
 }
 
-export async function signIn({ email, password }: SignInBody) {
-  await api.post(
-    '/session',
+export async function adminSignIn({ email, password }: SignInBody) {
+  const response = await api.post(
+    '/admin/session',
     { email, password },
     {
       withCredentials: true,
     },
   )
+  return response
 }

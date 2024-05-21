@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import * as z from 'zod'
 
-import { signIn } from '@/api/app/sign-in'
+import { adminSignIn } from '@/api/admin/admin-sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -18,7 +18,7 @@ const loginFormSchema = z.object({
 })
 type LoginFormInputs = z.infer<typeof loginFormSchema>
 
-export function SignIn() {
+export function AdminSignIn() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
@@ -35,7 +35,7 @@ export function SignIn() {
   })
 
   const { mutateAsync: authenticate } = useMutation({
-    mutationFn: signIn,
+    mutationFn: adminSignIn,
   })
 
   async function handleLogin(data: LoginFormInputs) {
@@ -49,9 +49,11 @@ export function SignIn() {
 
       nookies.set(undefined, 'token', token, {
         maxAge: 60 * 60,
-        path: '/',
+        path: '/admin',
       })
-      navigate('/')
+
+      toast.success('Login efetuado com sucesso!')
+      navigate('/admin')
     } catch {
       toast.error('Credencias invalidas!', {
         action: {
@@ -65,13 +67,13 @@ export function SignIn() {
   return (
     <div>
       <Helmet>
-        <title>Login</title>
+        <title>Admin Login</title>
       </Helmet>
       <div className="p-8">
         <div className="flex w-[350px] flex-col justify-center gap-6">
           <div className="flex flex-col gap-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Acessar loja
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Acessar <span className="text-blue-700">ADMIN</span>
             </h1>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>

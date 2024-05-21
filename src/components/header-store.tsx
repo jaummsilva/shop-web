@@ -1,4 +1,4 @@
-import { Home, Pizza, UtensilsCrossed } from 'lucide-react'
+import { Home, Pizza } from 'lucide-react'
 
 import { AccountMenu } from './account-menu'
 import { NavLink } from './nav-link'
@@ -16,9 +16,6 @@ export function StoreHeader() {
         <nav className="flex items-center space-x-4 lg:space-x-6">
           <NavLink to="/">
             <Home className="h-6 w-6" /> Inicio
-          </NavLink>
-          <NavLink to="/products">
-            <UtensilsCrossed className="h-6 w-6" /> Produtos
           </NavLink>
         </nav>
         <div className="ml-auto flex cursor-pointer items-center gap-2">

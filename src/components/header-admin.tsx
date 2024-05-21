@@ -9,6 +9,7 @@ export function AdminHeader() {
   return (
     <div className="border-bottom">
       <div className="flex h-16 items-center gap-6 px-6">
+        <p className="text-2xl text-rose-700">ADMIN</p>
         <Pizza className="h-6 w-6" />
 
         <Separator orientation="vertical" className="h-6" />

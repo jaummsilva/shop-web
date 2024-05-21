@@ -6,10 +6,10 @@ export function Error() {
       <h1 className="text-4xl font-bold">Whoops, algo aconteceu...</h1>
       <p className="text-accent-foreground">Um erro aconteceu na aplicação</p>
       <p className="text-accent-foreground">
-        Voltar para o{' '}
-        <Link to="dashboard" className="text-sky-600 dark:text-sky-400">
+        Voltar para a{' '}
+        <Link to="/" className="text-sky-600 dark:text-sky-400">
           {' '}
-          Dashboard
+          loja
         </Link>
       </p>
     </div>

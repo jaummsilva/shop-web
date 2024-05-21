@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
 
-export function AuthLayout() {
+export function AdminAuthLayout() {
   return (
     <div className="grid min-h-screen grid-cols-2 antialiased">
       <div className="border-right flex h-full flex-col justify-between border-foreground/5 bg-muted text-muted-foreground">
         <img
-          src="/Capa-E-COMMERCE-1170x700.jpg"
+          src="/imagem_admin_login.jpg"
           alt="Admin Login"
           className="h-full w-full overflow-hidden object-cover"
         />
