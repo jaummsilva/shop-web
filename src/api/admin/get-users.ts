@@ -15,7 +15,10 @@ export interface GetUsersResponse {
     birthdate: string
     email: string
     phone: string
-    photoPath: string
+    imageFakeName: string
+    imageOriginalName: string
+    imageUrl: string
+    status: 'S' | 'N'
     role: 'ADMIN' | 'MEMBER'
   }[]
   meta: {

@@ -1,12 +1,13 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { Edit, X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import type { UsersTableRowProps } from './page'
+import { UserSheetEdit } from './user-sheet-edit'
 
 export function UserTableRow({ user }: UsersTableRowProps) {
   return (
@@ -27,21 +28,25 @@ export function UserTableRow({ user }: UsersTableRowProps) {
       </TableCell>
       <TableCell>
         {user && user.birthdate
-          ? format(new Date(user.birthdate), 'd/M/yyyy', {
+          ? format(user.birthdate, 'd/M/yyyy', {
               locale: ptBR,
             })
           : ''}
       </TableCell>
       <TableCell className="space-x-2">
-        <Button type="button" variant="outline">
-          <Edit className="mr-2 size-4" />
-          Editar
-        </Button>
+        <UserSheetEdit user={user} />
 
-        <Button type="button" variant="secondary">
-          <X className="mr-2 size-4" />
-          Excluir
-        </Button>
+        {user && user.status === 'S' ? (
+          <Button type="button" variant="secondary">
+            <X className="mr-2 size-4" />
+            Inativar
+          </Button>
+        ) : (
+          <Button type="button" variant="secondary">
+            <Check className="mr-2 size-4" />
+            Ativar
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   )

@@ -26,8 +26,11 @@ export interface UsersTableRowProps {
     birthdate: string
     email: string
     phone: string
-    photoPath: string
     role: 'ADMIN' | 'MEMBER'
+    status: 'S' | 'N'
+    imageFakeName: string
+    imageOriginalName: string
+    imageUrl: string
   }
 }
 

@@ -30,7 +30,7 @@ export function DatePickerDemo({ date, setDate }: DatePickerDemoProps) {
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {date ? (
-            format(date, 'dd/MM/Y')
+            format(date, 'dd/MM/y')
           ) : (
             <span className="text-primary">Selecione uma data</span>
           )}

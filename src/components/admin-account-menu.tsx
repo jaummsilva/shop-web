@@ -31,7 +31,6 @@ export function AdminAccountMenu() {
         navigate('/admin/sign-in')
       }
     },
-    refetchOnWindowFocus: false, // Evita refetch ao focar na janela
   })
 
   async function handleLogout() {
