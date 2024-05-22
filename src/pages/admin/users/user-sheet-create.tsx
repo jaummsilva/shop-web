@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { UserPlus } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -26,30 +27,25 @@ import {
 import { Separator } from '@/components/ui/separator'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-
-const MB_BYTES = 1000000 // Number of bytes in a megabyte.
-
-// This is the list of mime types you will accept with the schema
-const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png']
+import { queryClient } from '@/lib/react-query'
 
 const userCreateSchema = z.object({
   name: z
     .string({
       required_error: '',
     })
-    .min(3),
+    .min(3, 'O nome deve ter no mínimo 3 caracteres.'),
   email: z
     .string({
       required_error: '',
     })
-    .email(),
+    .email('O e-mail deve ser válido.'),
   phone: z.string({
     required_error: '',
   }),
@@ -60,21 +56,21 @@ const userCreateSchema = z.object({
     .string({
       required_error: '',
     })
-    .min(6),
-  photoPath: z.instanceof(File).superRefine((f, ctx) => {
-    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `File must be one of [${ACCEPTED_MIME_TYPES.join(', ')}] but was ${f.type}`,
-      })
-    }
-    if (f.size > 3 * MB_BYTES) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `The file must not be larger than ${3 * MB_BYTES} bytes: ${f.size}`,
-      })
-    }
-  }),
+    .min(6, 'A senha deve ter no mínimo 6 caracteres.'),
+  photoPath: z
+    .instanceof(File, {
+      message: 'O tipo do arquivo deve ser imagem',
+    })
+    .refine(
+      (file) => {
+        const acceptedTypes = ['image/jpeg', 'image/png']
+        const MB_BYTES = 1 * 1024 * 1024 // 1MB in bytes
+        return file.size < MB_BYTES && acceptedTypes.includes(file.type)
+      },
+      {
+        message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
+      },
+    ),
   role: z.enum(['ADMIN', 'MEMBER']),
 })
 
@@ -85,24 +81,33 @@ export function UserSheetCreate() {
 
   const form = useForm<UserCreateSchema>({
     resolver: zodResolver(userCreateSchema),
+    defaultValues: {
+      role: 'MEMBER',
+    },
   })
 
   async function onSubmit(data: UserCreateSchema) {
-    console.log(data)
     try {
-      const response = await createUser({
-        birthdate: data.birthdate,
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        photoPath: data.photoPath,
-        phone: data.phone,
-        role: data.role,
-      })
+      const formData = new FormData()
+      formData.append('name', data.name)
+      formData.append('email', data.email)
+      formData.append('phone', data.phone)
+      formData.append('birthdate', data.birthdate.toISOString())
+      formData.append('password', data.password)
+      formData.append('photoPath', data.photoPath)
+      formData.append('role', data.role)
+
+      const response = await createUser(formData)
 
       if (response.status === 201) {
-        toast.success('Login efetuado com sucesso!')
+        toast.success('Usuário cadastrado com sucesso!')
         setIsSheetOpen(false)
+
+        await queryClient.invalidateQueries({
+          queryKey: ['users'],
+        })
+
+        form.reset()
       }
     } catch {
       toast.error('Erro ao cadastrar usuário!')
@@ -110,20 +115,21 @@ export function UserSheetCreate() {
   }
 
   return (
-    <Sheet open={isSheetOpen}>
+    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger asChild>
         <Button variant="secondary" onClick={() => setIsSheetOpen(true)}>
           Cadastrar
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="overflow-auto">
+      <SheetContent className="overflow-auto ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid gap-4 py-4"
           >
-            <SheetHeader>
+            <SheetHeader className="flex flex-row  items-center gap-2">
+              <UserPlus className="mt-2 size-6" />
               <SheetTitle>Cadastrar Usuário</SheetTitle>
             </SheetHeader>
             <Separator />
@@ -237,10 +243,12 @@ export function UserSheetCreate() {
                     <FormControl>
                       <Input
                         type="file"
+                        className="cursor-pointer"
+                        accept="image/jpg, image/jpeg, image/png"
                         placeholder="shadcn"
                         onChange={(e) => {
                           const file = e.target.files?.[0]
-                          field.onChange(file) // Manually call the onChange method with the selected file
+                          field.onChange(file)
                         }}
                       />
                     </FormControl>
@@ -262,7 +270,6 @@ export function UserSheetCreate() {
                         onValueChange={onChange}
                         value={value}
                         disabled={disabled}
-                        defaultValue="ADMIN"
                       >
                         <SelectTrigger className="h-8">
                           <SelectValue />
@@ -279,11 +286,9 @@ export function UserSheetCreate() {
               />
             </div>
             <SheetFooter>
-              <SheetClose asChild>
-                <Button type="submit" disabled={form.formState.isSubmitting}>
-                  Salvar
-                </Button>
-              </SheetClose>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                Salvar
+              </Button>
             </SheetFooter>
           </form>
         </Form>

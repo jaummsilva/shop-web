@@ -1,4 +1,4 @@
-import { Home, Pizza, User, UtensilsCrossed } from 'lucide-react'
+import { Home, User, UtensilsCrossed } from 'lucide-react'
 
 import { AdminAccountMenu } from './admin-account-menu'
 import { NavLink } from './nav-link'
@@ -9,9 +9,7 @@ export function AdminHeader() {
   return (
     <div className="border-bottom">
       <div className="flex h-16 items-center gap-6 px-6">
-        <p className="text-2xl text-rose-700">ADMIN</p>
-        <Pizza className="h-6 w-6" />
-
+        <p className="text-2xl text-blue-700">ADMIN</p>
         <Separator orientation="vertical" className="h-6" />
 
         <nav className="flex items-center space-x-4 lg:space-x-6">

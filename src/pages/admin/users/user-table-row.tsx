@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { Edit, X } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -15,11 +16,11 @@ export function UserTableRow({ user }: UsersTableRowProps) {
       <TableCell>{user && user.phone}</TableCell>
       <TableCell>
         {user && user.role === 'ADMIN' ? (
-          <Badge variant={'default'} className="p-2">
+          <Badge variant={'secondary'} className="p-2">
             {user && user.role}
           </Badge>
         ) : (
-          <Badge className="p-2" variant={'destructive'}>
+          <Badge className="p-2" variant={'default'}>
             {user && user.role}
           </Badge>
         )}
@@ -31,9 +32,15 @@ export function UserTableRow({ user }: UsersTableRowProps) {
             })
           : ''}
       </TableCell>
-      <TableCell>
+      <TableCell className="space-x-2">
         <Button type="button" variant="outline">
+          <Edit className="mr-2 size-4" />
           Editar
+        </Button>
+
+        <Button type="button" variant="secondary">
+          <X className="mr-2 size-4" />
+          Excluir
         </Button>
       </TableCell>
     </TableRow>
