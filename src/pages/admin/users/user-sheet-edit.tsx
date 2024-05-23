@@ -13,8 +13,8 @@ export function UserSheetEdit({ user }: UsersTableRowProps) {
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger asChild>
-        <Button variant="default" onClick={() => setIsSheetOpen(true)}>
-          <Edit className="mr-2 size-4" />
+        <Button variant="blue" onClick={() => setIsSheetOpen(true)}>
+          <Edit className="mr-2 size-5" />
           Editar
         </Button>
       </SheetTrigger>
