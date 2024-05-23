@@ -8,7 +8,7 @@ export function Error() {
       <p className="text-accent-foreground">
         Voltar para a{' '}
         <Link to="/" className="text-sky-600 dark:text-sky-400">
-          {' '}
+          {'   '}
           loja
         </Link>
       </p>

@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { queryClient } from '@/lib/react-query'
 
+import { Cart } from './cart'
 import { Dialog } from './ui/dialog'
 import { Skeleton } from './ui/skeleton'
 
@@ -48,6 +49,7 @@ export function AccountMenu() {
         </Button>
       ) : (
         <Dialog>
+          <Cart itemCount={0} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -55,7 +57,7 @@ export function AccountMenu() {
                 className="flex select-none items-center gap-2"
               >
                 {profile && profile.data.user.name}
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-6 w-6" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
