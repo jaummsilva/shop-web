@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
@@ -84,6 +85,9 @@ export function UsersPage() {
 
   return (
     <div>
+      <Helmet>
+        <title>Usuários</title>
+      </Helmet>
       <div className="mb-5 flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Usuários</h1>
       </div>

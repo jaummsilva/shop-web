@@ -24,7 +24,7 @@ export function Products() {
   return (
     <div>
       <Helmet>
-        <title>Pedidos</title>
+        <title>Produtos</title>
       </Helmet>
       <div className="mb-5 flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
