@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetTrigger } from '@/components/ui/sheet'
 
-import type { UsersTableRowProps } from './page'
-import { UserEditForm } from './user-form-edit'
+import { UserEditForm } from '../forms/user-form-edit'
+import type { UsersTableRowProps } from '../page'
 
 export function UserSheetEdit({ user }: UsersTableRowProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false) // State to control sheet open/close

@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { queryClient } from '@/lib/react-query'
 
-import type { UsersTableRowProps } from './page'
-import { UserSheetEdit } from './user-sheet-edit'
+import { UserSheetEdit } from '../components/user-sheet-edit'
+import type { UsersTableRowProps } from '../page'
 
 export function UserTableRow({ user }: UsersTableRowProps) {
   async function handleUpdateUserStatus(newStatus: 'S' | 'N') {

@@ -33,7 +33,7 @@ import {
 import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
 
-import type { UsersTableRowProps } from './page'
+import type { UsersTableRowProps } from '../page'
 
 type UserEditFormProps = {
   user: UsersTableRowProps['user']

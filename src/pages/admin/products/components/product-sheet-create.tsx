@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
-import { UserFormCreate } from './user-form-create'
+import { ProductFormCreate } from '../forms/product-form-create'
 
-export function UserSheetCreate() {
+export function ProductSheetCreate() {
   const [isSheetOpen, setIsSheetOpen] = useState(false) // State to control sheet open/close
 
   const handleCloseSheet = () => {
@@ -21,7 +21,7 @@ export function UserSheetCreate() {
       </SheetTrigger>
 
       <SheetContent className="overflow-auto">
-        <UserFormCreate isOpen={isSheetOpen} onClose={handleCloseSheet} />
+        <ProductFormCreate isOpen={isSheetOpen} onClose={handleCloseSheet} />
       </SheetContent>
     </Sheet>
   )
