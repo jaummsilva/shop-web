@@ -16,6 +16,10 @@ export interface GetProductsResponse {
     updatedAt: string
     description?: string
     price: number
+    productImages: {
+      imageUrl: string
+      isPrincipal: boolean
+    }
   }[]
   meta: {
     pageIndex: number

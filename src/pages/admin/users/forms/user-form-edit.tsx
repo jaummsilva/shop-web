@@ -143,8 +143,9 @@ export const UserEditForm: React.FC<UserEditFormProps> = ({
         await queryClient.invalidateQueries({
           queryKey: ['users'],
         })
-
-        form.reset()
+        await queryClient.invalidateQueries({
+          queryKey: ['profile'],
+        })
       }
     } catch {
       toast.error('Erro ao editar usuário!')

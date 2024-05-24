@@ -28,6 +28,10 @@ export interface ProductsTableRowProps {
     createdAt: string
     updatedAt: string
     description?: string
+    productImages: {
+      imageUrl: string
+      isPrincipal: boolean
+    }
   }
 }
 
