@@ -84,7 +84,8 @@ const userEditSchema = z
         {
           message: 'A imagem deve ser JPG ou PNG',
         },
-      ),
+      )
+      .optional(),
     role: z.enum(['ADMIN', 'MEMBER']),
   })
   .superRefine(({ repeatPassword, password }, ctx) => {
@@ -135,7 +136,7 @@ export const UserEditForm: React.FC<UserEditFormProps> = ({
 
       const response = await updateUser(formData)
 
-      if (response.status === 201) {
+      if (response.status === 204) {
         toast.success('Usuário editado com sucesso!')
         setIsSheetOpen(false)
 

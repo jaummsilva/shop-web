@@ -32,6 +32,8 @@ export interface UsersTableRowProps {
     imageFakeName: string
     imageOriginalName: string
     imageUrl: string
+    createdAt: string
+    updatedAt: string
   }
 }
 
@@ -108,9 +110,9 @@ export function UsersPage() {
               <TableRow>
                 <TableHead>Nome</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Telefone</TableHead>
                 <TableHead>Perfil</TableHead>
-                <TableHead>Data de Nascimento</TableHead>
+                <TableHead>Data de Criação</TableHead>
+                <TableHead>Data de Atualização</TableHead>
                 <TableHead>Ações</TableHead>
               </TableRow>
             </TableHeader>

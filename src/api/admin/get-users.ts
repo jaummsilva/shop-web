@@ -12,6 +12,8 @@ export interface GetUsersResponse {
   users: {
     id: string
     name: string
+    createdAt: string
+    updatedAt: string
     birthdate: string
     email: string
     phone: string

@@ -36,7 +36,7 @@ export function UserTableRow({ user }: UsersTableRowProps) {
     <TableRow>
       <TableCell>{user?.name}</TableCell>
       <TableCell>{user?.email}</TableCell>
-      <TableCell>{user?.phone}</TableCell>
+
       <TableCell>
         <Badge
           variant={user?.role === 'ADMIN' ? 'secondary' : 'default'}
@@ -45,9 +45,17 @@ export function UserTableRow({ user }: UsersTableRowProps) {
           {user?.role}
         </Badge>
       </TableCell>
+
       <TableCell>
-        {user?.birthdate
-          ? format(user.birthdate, 'd/M/yyyy', {
+        {user?.createdAt
+          ? format(user.createdAt, 'd/M/yyyy HH:mm', {
+              locale: ptBR,
+            })
+          : ''}
+      </TableCell>
+      <TableCell>
+        {user?.updatedAt
+          ? format(user.updatedAt, 'd/M/yyyy HH:mm', {
               locale: ptBR,
             })
           : ''}
