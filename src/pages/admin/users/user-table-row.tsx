@@ -1,8 +1,9 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { Check, X } from 'lucide-react'
+import { Check, Trash, X } from 'lucide-react'
 import { toast } from 'sonner'
 
+import { deleteUser } from '@/api/admin/delete-user'
 import { updateUserStatus } from '@/api/admin/update-status-user'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -23,6 +24,25 @@ export function UserTableRow({ user }: UsersTableRowProps) {
       if (response.status === 204) {
         // Atualização bem sucedida
         toast.success(`Status do usuário ${user.name} atualizado com sucesso!`)
+        await queryClient.invalidateQueries({
+          queryKey: ['users'],
+        })
+      }
+    } catch (error) {
+      toast.error('Falha ao atualizar o status do usuário!')
+    }
+  }
+
+  async function handleDeleteUser() {
+    try {
+      console.log(user.id)
+      const response = await deleteUser({
+        userId: user.id,
+      })
+
+      if (response.status === 204) {
+        // Atualização bem sucedida
+        toast.success(`Usuário ${user.name} deletado com sucesso!`)
         await queryClient.invalidateQueries({
           queryKey: ['users'],
         })
@@ -62,11 +82,18 @@ export function UserTableRow({ user }: UsersTableRowProps) {
       </TableCell>
       <TableCell className="space-x-2">
         <UserSheetEdit user={user} />
-
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={() => handleDeleteUser()}
+        >
+          <Trash className="mr-2 size-5" />
+          Excluir
+        </Button>
         {user?.status === 'S' ? (
           <Button
             type="button"
-            variant="destructive"
+            variant="default"
             onClick={() => handleUpdateUserStatus('N')}
           >
             <X className="mr-2 size-5" />
@@ -75,7 +102,7 @@ export function UserTableRow({ user }: UsersTableRowProps) {
         ) : (
           <Button
             type="button"
-            variant="success"
+            variant="default"
             onClick={() => handleUpdateUserStatus('S')}
           >
             <Check className="mr-2 size-5" />
