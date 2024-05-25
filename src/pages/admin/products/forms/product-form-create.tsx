@@ -3,7 +3,7 @@ import { UserPlus } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { z } from 'zod' // Importar ZodType para especificar os tipos
+import { z } from 'zod'
 
 import { createProduct } from '@/api/admin/create-product'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,9 @@ import { Separator } from '@/components/ui/separator'
 import { SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { queryClient } from '@/lib/react-query'
 import { formatPrice } from '@/utils/format-price'
+import { validateImageFile } from '@/utils/validate-image'
+
+import type { ProductCreateFormProps } from '../types/product-create-form-props'
 
 const productCreateSchema = z.object({
   name: z
@@ -36,37 +39,26 @@ const productCreateSchema = z.object({
     .string({
       required_error: '',
     })
-    .transform((value) => parseFloat(value.replace(',', '.'))),
+    .refine((value) => {
+      const parsedValue = parseFloat(value)
+      return !isNaN(parsedValue) && parsedValue > 0
+    }, 'O preço deve ser um número maior que zero.'),
   photoPrincipal: z
     .instanceof(File, {
       message: 'O tipo do arquivo deve ser imagem',
     })
-    .refine(
-      (file) => {
-        const acceptedTypes = ['image/jpeg', 'image/png']
-        const MB_BYTES = 1 * 1024 * 1024 // 1MB em bytes
-        return file.size < MB_BYTES && acceptedTypes.includes(file.type)
-      },
-      {
-        message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
-      },
-    ),
+    .refine(async (file) => await validateImageFile(file), {
+      message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
+    }),
   photos: z
     .array(
       z
         .instanceof(File, {
           message: 'O tipo do arquivo deve ser imagem',
         })
-        .refine(
-          (file) => {
-            const acceptedTypes = ['image/jpeg', 'image/png']
-            const MB_BYTES = 1 * 1024 * 1024 // 1MB em bytes
-            return file.size < MB_BYTES && acceptedTypes.includes(file.type)
-          },
-          {
-            message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
-          },
-        ),
+        .refine(async (file) => await validateImageFile(file), {
+          message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
+        }),
     )
     .max(3, 'Máximo de 3 fotos permitidas.')
     .optional(),
@@ -74,12 +66,7 @@ const productCreateSchema = z.object({
 
 type ProductCreateSchema = z.infer<typeof productCreateSchema> // Definir o tipo aqui
 
-interface ProductFormProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
-export function ProductFormCreate({ onClose }: ProductFormProps) {
+export function ProductFormCreate({ onClose }: ProductCreateFormProps) {
   const [selectedPhotoPrincipal, setSelectedPhotoPrincipal] =
     useState<File | null>(null)
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([])
@@ -208,7 +195,10 @@ export function ProductFormCreate({ onClose }: ProductFormProps) {
                     placeholder="Digite o preço"
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, '')
-                      field.onChange(parseFloat(value) / 100)
+                      const valorFormatted = (
+                        parseFloat(value) / 100
+                      ).toString()
+                      field.onChange(valorFormatted)
                     }}
                     onBlur={() => {
                       field.onChange(Number(field.value).toFixed(2)) // Formatar para 2 casas decimais ao sair
@@ -242,14 +232,16 @@ export function ProductFormCreate({ onClose }: ProductFormProps) {
                   />
                 </FormControl>
                 {selectedPhotoPrincipal && (
-                  <div className="mt-2">
+                  <div className="mt-2 h-40 overflow-auto">
                     <img
                       src={URL.createObjectURL(selectedPhotoPrincipal)}
                       alt="Foto Principal"
-                      className="h-30 w-30"
+                      className="h-auto w-full rounded"
+                      style={{ maxWidth: '100%' }}
                     />
                   </div>
                 )}
+
                 <FormMessage />
               </FormItem>
             )}
@@ -272,13 +264,13 @@ export function ProductFormCreate({ onClose }: ProductFormProps) {
                   />
                 </FormControl>
                 {selectedPhotos.length > 0 && (
-                  <div className="mt-3 grid grid-cols-3 gap-4">
+                  <div className="mt-3 grid h-20 grid-cols-3 gap-4 overflow-auto">
                     {selectedPhotos.map((photo, index) => (
                       <img
                         key={index}
                         src={URL.createObjectURL(photo)}
                         alt={`Photo ${index}`}
-                        className="h-30 w-30 object-cover"
+                        className="h-full w-full rounded object-cover"
                       />
                     ))}
                   </div>

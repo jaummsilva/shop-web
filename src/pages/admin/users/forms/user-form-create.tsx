@@ -26,6 +26,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { queryClient } from '@/lib/react-query'
+import { validateImageFile } from '@/utils/validate-image'
 
 const userCreateSchema = z
   .object({
@@ -59,16 +60,9 @@ const userCreateSchema = z
       .instanceof(File, {
         message: 'O tipo do arquivo deve ser imagem',
       })
-      .refine(
-        (file) => {
-          const acceptedTypes = ['image/jpeg', 'image/png']
-          const MB_BYTES = 1 * 1024 * 1024 // 1MB in bytes
-          return file.size < MB_BYTES && acceptedTypes.includes(file.type)
-        },
-        {
-          message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
-        },
-      ),
+      .refine(async (file) => await validateImageFile(file), {
+        message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
+      }),
     role: z.enum(['ADMIN', 'MEMBER']),
   })
   .superRefine(({ repeatPassword, password }, ctx) => {

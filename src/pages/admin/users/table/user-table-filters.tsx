@@ -75,56 +75,60 @@ export function UserTableFilters() {
   return (
     <form
       onSubmit={handleSubmit(handleFilter)}
-      className="flex items-center gap-2"
+      className="flex w-full flex-col items-start gap-3 md:flex-row md:gap-2"
     >
-      <span className="text-sm font-semibold">Filtros:</span>
-      <Input
-        {...register('name')}
-        id="name"
-        placeholder="Nome do usuario"
-        className="h-8 w-[320px]"
-      />
-      <Controller
-        name="perPage"
-        control={control}
-        render={({ field: { name, onChange, value, disabled } }) => (
-          <Select
-            name={name}
-            onValueChange={onChange}
-            value={value}
-            disabled={disabled}
-          >
-            <SelectTrigger className="h-8 w-[65px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="25">25</SelectItem>
-              <SelectItem value="50">50</SelectItem>
-              <SelectItem value="100">100</SelectItem>
-            </SelectContent>
-          </Select>
-        )}
-      />
-      <Button
-        disabled={isSubmitting}
-        type="submit"
-        variant="secondary"
-        size="xs"
-      >
-        <Search className="mr-2 h-4 w-4" />
-        Filtrar
-      </Button>
-      <Button
-        disabled={isSubmitting}
-        type="button"
-        variant="outline"
-        size="xs"
-        onClick={handleFilterReset}
-      >
-        <X className="mr-2 h-4 w-4" />
-        Remover Filtros
-      </Button>
+      <div className="xs:flex-col flex w-full  flex-row items-center gap-2">
+        <span className="text-sm font-semibold">Filtros:</span>
+        <Input
+          {...register('name')}
+          id="name"
+          placeholder="Nome do usuario"
+          className="h-8 w-[320px]"
+        />
+        <Controller
+          name="perPage"
+          control={control}
+          render={({ field: { name, onChange, value, disabled } }) => (
+            <Select
+              name={name}
+              onValueChange={onChange}
+              value={value}
+              disabled={disabled}
+            >
+              <SelectTrigger className="h-8 w-[65px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="25">25</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="100">100</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        />
+      </div>
+      <div className="flex  flex-row gap-2">
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          variant="secondary"
+          size="xs"
+        >
+          <Search className="mr-2 h-4 w-4" />
+          Filtrar
+        </Button>
+        <Button
+          disabled={isSubmitting}
+          type="button"
+          variant="outline"
+          size="xs"
+          onClick={handleFilterReset}
+        >
+          <X className="mr-2 h-4 w-4" />
+          Remover Filtros
+        </Button>
+      </div>
     </form>
   )
 }

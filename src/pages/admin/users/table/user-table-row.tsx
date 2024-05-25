@@ -29,13 +29,12 @@ export function UserTableRow({ user }: UsersTableRowProps) {
         })
       }
     } catch (error) {
-      toast.error('Falha ao atualizar o status do usuário!')
+      toast.error('Falha ao deletar o status do usuário!')
     }
   }
 
   async function handleDeleteUser() {
     try {
-      console.log(user.id)
       const response = await deleteUser({
         userId: user.id,
       })
@@ -48,7 +47,7 @@ export function UserTableRow({ user }: UsersTableRowProps) {
         })
       }
     } catch (error) {
-      toast.error('Falha ao atualizar o status do usuário!')
+      toast.error('Falha ao deletar o usuário!')
     }
   }
 
@@ -80,7 +79,7 @@ export function UserTableRow({ user }: UsersTableRowProps) {
             })
           : ''}
       </TableCell>
-      <TableCell className="space-x-2">
+      <TableCell className="flex space-x-2">
         <UserSheetEdit user={user} />
         <Button
           type="button"

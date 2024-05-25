@@ -19,7 +19,7 @@ export interface GetProductsResponse {
     productImages: {
       imageUrl: string
       isPrincipal: boolean
-    }
+    }[]
   }[]
   meta: {
     pageIndex: number

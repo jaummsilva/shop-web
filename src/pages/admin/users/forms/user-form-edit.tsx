@@ -32,6 +32,7 @@ import {
 } from '@/components/ui/sheet'
 import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
+import { validateImageFile } from '@/utils/validate-image'
 
 import type { UsersTableRowProps } from '../page'
 
@@ -75,16 +76,9 @@ const userEditSchema = z
       .instanceof(File, {
         message: 'O tipo do arquivo deve ser imagem',
       })
-      .refine(
-        (file) => {
-          const acceptedTypes = ['image/jpeg', 'image/png']
-          const MB_BYTES = 1 * 1024 * 1024 // 1MB in bytes
-          return file.size < MB_BYTES || acceptedTypes.includes(file.type)
-        },
-        {
-          message: 'A imagem deve ser JPG ou PNG',
-        },
-      )
+      .refine(async (file) => await validateImageFile(file), {
+        message: 'A imagem deve ser JPG ou PNG e ter menos de 1MB.',
+      })
       .optional(),
     role: z.enum(['ADMIN', 'MEMBER']),
   })

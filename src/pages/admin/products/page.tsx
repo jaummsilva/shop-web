@@ -31,7 +31,7 @@ export interface ProductsTableRowProps {
     productImages: {
       imageUrl: string
       isPrincipal: boolean
-    }
+    }[]
   }
 }
 
@@ -93,11 +93,14 @@ export function ProductsPage() {
       </div>
       <Separator />
       <div className="mt-4 space-y-2.5">
-        <div className="flex flex-row justify-between gap-2">
+        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:gap-2">
+          <div className="block lg:hidden">
+            <ProductSheetCreate />
+          </div>
           <div>
             <ProductTableFilters />
           </div>
-          <div>
+          <div className="hidden lg:block">
             <ProductSheetCreate />
           </div>
         </div>
