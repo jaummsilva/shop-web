@@ -1,37 +1,122 @@
-import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 
+import { clearProductFromCart } from '@/api/app/clear-product-from-cart'
+import { getProduct, type GetProductResponse } from '@/api/app/get-product'
+import { updateProductQuantityInCart } from '@/api/app/update-product-quantity-in-cart'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { env } from '@/env'
+import { queryClient } from '@/lib/react-query'
+import { formatPrice } from '@/utils/format-price'
 
-export default function ProductCart() {
-  const [quantity, setQuantity] = useState(1)
+interface CartItemProps {
+  cartItem: { cartId: string; productId: string; quantity: number }
+}
 
-  const incrementQuantity = () => {
-    setQuantity(quantity + 1)
+export default function ProductCart({ cartItem }: CartItemProps) {
+  const [quantity, setQuantity] = useState(cartItem.quantity)
+
+  const { data: product } = useQuery<GetProductResponse>({
+    queryKey: ['store-products', cartItem.productId || ''],
+    queryFn: () => getProduct({ productId: cartItem.productId || '' }),
+  })
+
+  const incrementQuantity = async () => {
+    try {
+      const response = await updateProductQuantityInCart({
+        productId: cartItem.productId || '',
+        type: 'INCREMENT',
+      })
+
+      if (response.status === 204) {
+        await queryClient.invalidateQueries({
+          queryKey: ['cart'],
+        })
+        setQuantity(quantity + 1)
+      }
+    } catch {}
   }
 
-  const decrementQuantity = () => {
+  const decrementQuantity = async () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1)
+      try {
+        const response = await updateProductQuantityInCart({
+          productId: cartItem.productId || '',
+          type: 'DECREMENT',
+        })
+
+        if (response.status === 204) {
+          await queryClient.invalidateQueries({
+            queryKey: ['cart'],
+          })
+          setQuantity(quantity - 1)
+        }
+      } catch {}
     }
   }
+
+  const [selectedPhotoPrincipal, setSelectedPhotoPrincipal] = useState<{
+    file: File
+    previewUrl: string
+  }>({
+    file: new File([], ''),
+    previewUrl: '',
+  })
+
+  const handleClearProductFromCart = async () => {
+    try {
+      const response = await clearProductFromCart({
+        productId: cartItem.productId || '',
+      })
+
+      if (response.status === 200) {
+        await queryClient.invalidateQueries({
+          queryKey: ['cart'],
+        })
+      }
+    } catch {}
+  }
+
+  useEffect(() => {
+    if (product && product.productImages.length > 0) {
+      const principalImage = product.productImages.find(
+        (img) => img.isPrincipal,
+      )
+      if (principalImage) {
+        const imageUrl = principalImage.imageUrl
+        setSelectedPhotoPrincipal({
+          file: new File([], ''),
+          previewUrl: env.VITE_API_URL.concat(imageUrl),
+        })
+      }
+    }
+  }, [product])
 
   return (
     <Card className="mb-4 w-full max-w-sm rounded-xl border">
       <div className="grid gap-4 p-4">
-        <div className="aspect-w-4 aspect-h-5 w-full overflow-hidden rounded-xl">
+        <div className="flex justify-between overflow-hidden rounded-xl">
           <img
             alt="Product image"
-            className="w-full border object-cover"
-            src="public/Capa-E-COMMERCE-1170x700.jpg"
+            className="h-32 w-32 object-cover md:h-52 md:w-52"
+            src={selectedPhotoPrincipal.previewUrl}
           />
+          <Button
+            size="sm"
+            variant="destructive"
+            onClick={handleClearProductFromCart}
+          >
+            X
+          </Button>
         </div>
         <div className="grid gap-2">
           <h3 className="text-sm font-semibold md:text-base">
-            Acme Circles T-Shirt
+            {product && product.name}
           </h3>
-          <p className="text-sm font-semibold md:text-base">RS 22,90</p>
-          <p className="text-sm md:text-base">PRODUTO TESTE</p>
+          <p className="text-sm font-semibold md:text-base">
+            {product && formatPrice(product.price)}
+          </p>
         </div>
         <div className="flex items-center justify-center gap-1">
           <Button size="sm" onClick={decrementQuantity}>
@@ -40,16 +125,13 @@ export default function ProductCart() {
           <input
             type="text"
             value={quantity}
-            className="w-12 rounded border text-center text-black"
+            className="size-9 w-12 rounded border text-center text-black"
             readOnly
           />
           <Button size="sm" onClick={incrementQuantity}>
             +
           </Button>
         </div>
-        <Button size="sm" className="mt-2 w-full">
-          Adicionar ao carrinho
-        </Button>
       </div>
     </Card>
   )

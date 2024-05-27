@@ -255,9 +255,9 @@ export function ProductEditForm({
                         field.onChange(valorFormatted)
                       }}
                       onBlur={() => {
-                        field.onChange(Number(field.value).toFixed(2)) // Formatar para 2 casas decimais ao sair
+                        field.onChange(Number(field.value).toFixed(2))
                       }}
-                      value={formatPrice(Number(field.value))} // Formatar o valor exibido
+                      value={formatPrice(Number(field.value))}
                     />
                   </FormControl>
                   <FormMessage />

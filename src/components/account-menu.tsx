@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useAuth } from '@/hooks/use-auth'
 import { queryClient } from '@/lib/react-query'
 
 import { Dialog } from './ui/dialog'
@@ -20,6 +21,7 @@ import { Skeleton } from './ui/skeleton'
 
 export function AccountMenu() {
   const navigate = useNavigate()
+  const { isAuthenticated } = useAuth()
 
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile'],
@@ -27,13 +29,13 @@ export function AccountMenu() {
     refetchOnWindowFocus: false, // Evita refetch ao focar na janela
   })
 
-  async function handleLogout() {
-    nookies.destroy(null, 'token')
+  const handleLogout = () => {
+    nookies.destroy(undefined, 'token')
     nookies.destroy(null, 'refreshToken')
-    await queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: ['profile'],
     })
-    navigate('/')
+    window.location.reload()
   }
 
   function handleLogin() {
@@ -42,7 +44,7 @@ export function AccountMenu() {
 
   return (
     <>
-      {isLoadingProfile ? (
+      {!isAuthenticated() ? (
         <Button type="button" variant="default" onClick={handleLogin}>
           Entrar
         </Button>

@@ -1,3 +1,4 @@
+// AppRouter.tsx
 import { createBrowserRouter } from 'react-router-dom'
 
 import { AdminLayout } from './pages/admin/_layouts/admin'
@@ -10,14 +11,14 @@ import { StoreLayout } from './pages/app/_layouts/store'
 import { NotFound } from './pages/app/404'
 import { AuthLayout } from './pages/app/auth'
 import { SignIn } from './pages/app/auth/sign-in'
-import { Error } from './pages/app/error'
+import { Home } from './pages/app/home/page'
+import ProductDetailsPage from './pages/app/products/details'
 import { StoreProducts } from './pages/app/products/page'
 
 export const router = createBrowserRouter([
   {
     path: '/admin',
     element: <AdminLayout />,
-    errorElement: <Error />,
     children: [
       { path: 'products', element: <ProductsPage /> },
       { path: 'users', element: <UsersPage /> },
@@ -26,14 +27,16 @@ export const router = createBrowserRouter([
   {
     path: '/admin',
     element: <AdminAuthLayout />,
-    errorElement: <Error />,
     children: [{ path: 'sign-in', element: <AdminSignIn /> }],
   },
   {
     path: '/',
     element: <StoreLayout />,
-    errorElement: <Error />,
-    children: [{ path: 'products', element: <StoreProducts /> }],
+    children: [
+      { path: 'products', element: <StoreProducts /> },
+      { path: 'product/:productId', element: <ProductDetailsPage /> }, // Rota para detalhes do produto com ID dinâmico
+      { path: '/', element: <Home /> },
+    ],
   },
   {
     path: '/sign-in',
