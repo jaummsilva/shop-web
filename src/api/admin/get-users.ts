@@ -35,7 +35,7 @@ export async function getUsers({
   pageIndex: page,
   perPage,
 }: GetUsersQuery) {
-  const token = nookies.get(null).token
+  const token = nookies.get(null).token_admin
 
   const response = await api.get<GetUsersResponse>('/users', {
     params: {

@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
+import type { AxiosError } from 'axios'
 import { ChevronDown, LogOut } from 'lucide-react'
 import nookies from 'nookies'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { getProfile } from '@/api/get-profile'
+import { getProfile } from '@/api/app/get-profile'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -23,15 +25,34 @@ export function AccountMenu() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAuth()
 
-  const { data: profile, isLoading: isLoadingProfile } = useQuery({
+  const {
+    data: profile,
+    isLoading: isLoadingProfile,
+    error,
+  } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
     refetchOnWindowFocus: false, // Evita refetch ao focar na janela
   })
 
+  useEffect(() => {
+    const handleProfileError = (error: Error) => {
+      if (
+        error &&
+        'response' in error &&
+        (error as AxiosError).response?.status === 404
+      ) {
+        // Verifica se o erro é do tipo AxiosError e se o status é 404
+        nookies.destroy(undefined, 'token')
+        window.location.reload()
+      }
+    }
+
+    handleProfileError(error as Error)
+  }, [error])
+
   const handleLogout = () => {
     nookies.destroy(undefined, 'token')
-    nookies.destroy(null, 'refreshToken')
     queryClient.invalidateQueries({
       queryKey: ['profile'],
     })

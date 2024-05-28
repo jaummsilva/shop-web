@@ -1,3 +1,5 @@
+import nookies from 'nookies'
+
 import { api } from '@/lib/axios'
 
 export type GetProductResponse = {
@@ -11,8 +13,14 @@ export type GetProductResponse = {
 }
 
 export async function getProduct({ productId }: { productId: string }) {
+  const token = nookies.get(null).token
   const response = await api.get<GetProductResponse>(
     `/store/product/${productId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   )
 
   return response.data

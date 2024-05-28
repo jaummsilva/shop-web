@@ -40,14 +40,14 @@ export function AdminSignIn() {
 
   async function handleLogin(data: LoginFormInputs) {
     try {
+      nookies.destroy(undefined, 'token_admin')
       const response = await authenticate({
         email: data.email,
         password: data.password,
       })
 
       const { token } = response.data
-
-      nookies.set(undefined, 'token', token, {
+      nookies.set(undefined, 'token_admin', token, {
         maxAge: 60 * 60,
         path: '/admin',
       })
@@ -67,7 +67,7 @@ export function AdminSignIn() {
   return (
     <div>
       <Helmet>
-        <title>Admin Login</title>
+        <title>Admin</title>
       </Helmet>
       <div className="p-8">
         <div className="flex w-[350px] flex-col justify-center gap-6">

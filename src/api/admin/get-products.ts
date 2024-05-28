@@ -33,7 +33,7 @@ export async function getProducts({
   pageIndex: page,
   perPage,
 }: GetProductsQuery) {
-  const token = nookies.get(null).token
+  const token = nookies.get(null).token_admin
 
   const response = await api.get<GetProductsResponse>('/products', {
     params: {

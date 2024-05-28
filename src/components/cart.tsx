@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { clearItemsFromCart } from '@/api/app/clear-items-from-cart'
+import { registerOrder } from '@/api/app/register-order'
 import { queryClient } from '@/lib/react-query'
 import type { Cart } from '@/type/cart'
 import { formatPrice } from '@/utils/format-price'
@@ -25,9 +26,22 @@ export function Cart({ cart, itemCount, priceTotal }: CartProps) {
     setIsSheetOpen(!isSheetOpen)
   }
 
-  const handleFinalizePurchase = () => {
-    console.log('Compra finalizada!')
-    setIsSheetOpen(false)
+  const handleFinalizePurchase = async () => {
+    try {
+      const response = await registerOrder()
+
+      if (response.status === 201) {
+        const orderId = response.data.orderId
+        toast.success(`Pedido ${orderId} feito com sucesso!`)
+
+        await queryClient.invalidateQueries({
+          queryKey: ['cart'],
+        })
+        setIsSheetOpen(false)
+      }
+    } catch {
+      toast.error('Erro ao finalizar pedido!')
+    }
   }
 
   async function handleClearItemsFromCart() {

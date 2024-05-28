@@ -17,7 +17,6 @@ export async function addToCart({ productId, quantity }: AddToCartBody) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      withCredentials: true,
     },
   )
 

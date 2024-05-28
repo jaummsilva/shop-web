@@ -1,23 +1,34 @@
 import { isAxiosError } from 'axios'
+import { jwtDecode } from 'jwt-decode'
+import nookies from 'nookies'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { AdminHeader } from '@/components/header-admin'
 import { api } from '@/lib/axios'
 
+interface DecodedToken {
+  role: string
+}
+
 export function AdminLayout() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const token = nookies.get(null).token_admin
+    const decodedToken = jwtDecode<DecodedToken>(token)
+    if (decodedToken.role !== 'ADMIN') {
+      navigate('/admin/sign-in')
+    }
     const interceptorId = api.interceptors.response.use(
       (response) => response,
       (error) => {
         if (isAxiosError(error)) {
           const status = error.response?.status
-          const code = error.response?.data.code
 
-          if (status === 401 && code === 'UNAUTHORIZED') {
-            navigate('admin/sign-in', { replace: true })
+          if (status === 401) {
+            nookies.destroy(undefined, 'token_admin')
+            navigate('/admin/sign-in')
           }
         }
       },

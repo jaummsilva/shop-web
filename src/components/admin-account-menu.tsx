@@ -3,7 +3,7 @@ import { ChevronDown, LogOut } from 'lucide-react'
 import nookies from 'nookies'
 import { useNavigate } from 'react-router-dom'
 
-import { getProfile } from '@/api/get-profile'
+import { getAdminProfile } from '@/api/admin/get-admin-profile'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -25,7 +25,7 @@ export function AdminAccountMenu() {
     queryKey: ['profile'],
     queryFn: async () => {
       try {
-        const result = await getProfile()
+        const result = await getAdminProfile()
         return result.data
       } catch (error) {
         navigate('/admin/sign-in')
@@ -34,8 +34,7 @@ export function AdminAccountMenu() {
   })
 
   async function handleLogout() {
-    nookies.destroy(null, 'token')
-    nookies.destroy(null, 'refreshToken')
+    nookies.destroy(null, 'token_admin')
     await queryClient.invalidateQueries({
       queryKey: ['profile'],
     })

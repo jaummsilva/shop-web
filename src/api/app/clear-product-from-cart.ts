@@ -15,7 +15,6 @@ export async function clearProductFromCart({
     '/store/cart/product/clear',
     { productId },
     {
-      withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
       },

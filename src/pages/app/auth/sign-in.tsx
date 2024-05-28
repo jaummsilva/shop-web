@@ -40,6 +40,7 @@ export function SignIn() {
 
   async function handleLogin(data: LoginFormInputs) {
     try {
+      nookies.destroy(undefined, 'token')
       const response = await authenticate({
         email: data.email,
         password: data.password,

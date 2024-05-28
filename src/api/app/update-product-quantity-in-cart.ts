@@ -17,7 +17,6 @@ export async function updateProductQuantityInCart({
     '/store/cart',
     { type, productId },
     {
-      withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
       },
