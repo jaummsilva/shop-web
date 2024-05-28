@@ -48,15 +48,19 @@ const userEditSchema = z
       .string({
         required_error: '',
       })
-      .min(3, 'O nome deve ter no mínimo 3 caracteres.'),
+      .min(3, 'O nome deve ter no mínimo 3 caracteres.')
+      .max(255, 'O nome deve ter no máximo 255 caracteres.'),
     email: z
       .string({
         required_error: '',
       })
+      .max(255, 'O email deve ter no máximo 255 caracteres.')
       .email('O e-mail deve ser válido.'),
-    phone: z.string({
-      required_error: '',
-    }),
+    phone: z
+      .string({
+        required_error: '',
+      })
+      .max(15, 'O telefone deve ter no máximo 15 caracteres.'),
     birthdate: z.date({
       required_error: '',
     }),
@@ -65,12 +69,14 @@ const userEditSchema = z
         required_error: '',
       })
       .min(6, 'A senha deve ter no mínimo 6 caracteres.')
+      .max(100, 'A senha deve ter no máximo 100 caracteres.')
       .optional(),
     repeatPassword: z
       .string({
         required_error: '',
       })
       .min(6, 'A senha deve ter no mínimo 6 caracteres.')
+      .max(100, 'A senha deve ter no máximo 100 caracteres.')
       .optional(),
     photoPath: z
       .instanceof(File, {

@@ -72,22 +72,28 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="mt-4 w-full max-w-xs rounded-xl border">
-      <div className="grid gap-4 p-4">
+      <div className="grid gap-4 p-10">
         <div className="aspect-[4/5] w-full overflow-hidden rounded-xl">
           <Link to={`/product/${product.id}`}>
             <img
               alt="Product image"
-              className="aspect-[4/5] w-full border object-cover"
+              className="aspect-[4/5] w-full  object-cover"
               src={selectedPhotoPrincipal.previewUrl}
             />
           </Link>
         </div>
         <div className="grid gap-4">
-          <h3 className="text-sm font-semibold md:text-base">{product.name}</h3>
+          <h3 className="text-sm font-semibold md:text-lg">
+            <Link to={`/product/${product.id}`}>{product.name}</Link>
+          </h3>
           <p className="text-sm font-semibold md:text-base">
             {formatPrice(product.price)}
           </p>
-          <p className="text-sm md:text-base">{product.description ?? ''}</p>
+          <p className="text-sm md:text-base">
+            <Link to={`/product/${product.id}`}>
+              {product.description ?? ''}
+            </Link>
+          </p>
         </div>
         <div className="flex items-center justify-center gap-1">
           <Button size="sm" onClick={decrementQuantity}>
@@ -104,7 +110,12 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Button>
         </div>
         {isAuthenticated() ? (
-          <Button size="sm" className="mt-2 w-full" onClick={handleAddToCart}>
+          <Button
+            variant="blue"
+            size="sm"
+            className="mt-2 w-full"
+            onClick={handleAddToCart}
+          >
             Adicione ao carrinho
           </Button>
         ) : (

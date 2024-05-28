@@ -29,11 +29,13 @@ const productCreateSchema = z.object({
     .string({
       required_error: '',
     })
-    .min(3, 'O nome deve ter no mínimo 3 caracteres.'),
+    .min(3, 'O nome deve ter no mínimo 3 caracteres.')
+    .max(255, 'O nome deve ter no máximo 255 caracteres.'),
   description: z
     .string({
       required_error: '',
     })
+    .max(255, 'A descrição deve ter no máximo 255 caracteres.')
     .optional(),
   price: z
     .string({

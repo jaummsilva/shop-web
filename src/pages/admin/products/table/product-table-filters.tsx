@@ -82,7 +82,7 @@ export function ProductTableFilters() {
         <Input
           {...register('name')}
           id="name"
-          placeholder="Nome do usuário"
+          placeholder="Nome do produto"
           className="h-8 sm:w-[320px]"
         />
         <Controller
