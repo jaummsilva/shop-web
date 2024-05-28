@@ -73,13 +73,16 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="mt-4 w-full max-w-xs rounded-xl border">
       <div className="grid gap-4 p-10">
-        <div className="aspect-[4/5] w-full overflow-hidden rounded-xl">
+        <div className="">
           <Link to={`/product/${product.id}`}>
-            <img
-              alt="Product image"
-              className="aspect-[4/5] w-full  object-cover"
-              src={selectedPhotoPrincipal.previewUrl}
-            />
+            <div className="mt-2 flex h-40 justify-center overflow-auto">
+              <img
+                src={selectedPhotoPrincipal.previewUrl}
+                alt="Foto Principal"
+                className="rounded object-cover"
+                style={{ maxWidth: '100%' }}
+              />
+            </div>
           </Link>
         </div>
         <div className="grid gap-4">

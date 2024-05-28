@@ -66,7 +66,7 @@ export function SignIn() {
   return (
     <div>
       <Helmet>
-        <title>Login</title>
+        <title>Shop</title>
       </Helmet>
       <div className="p-8">
         <div className="flex w-[350px] flex-col justify-center gap-6">

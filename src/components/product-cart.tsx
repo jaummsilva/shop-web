@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { clearProductFromCart } from '@/api/app/clear-product-from-cart'
@@ -96,18 +97,21 @@ export default function ProductCart({ cartItem }: CartItemProps) {
   return (
     <Card className="mb-4 w-full max-w-sm rounded-xl border">
       <div className="grid gap-4 p-4">
-        <div className="flex justify-between overflow-hidden rounded-xl">
-          <img
-            alt="Product image"
-            className="h-32 w-32 object-cover md:h-52 md:w-52"
-            src={selectedPhotoPrincipal.previewUrl}
-          />
+        <div className="flex justify-between">
+          <div className="mt-2 flex h-40 justify-center overflow-auto">
+            <img
+              src={selectedPhotoPrincipal.previewUrl}
+              alt="Foto Principal"
+              className="rounded object-cover"
+              style={{ maxWidth: '100%' }}
+            />
+          </div>
           <Button
-            size="sm"
-            variant="destructive"
+            size="lg"
+            variant="ghost"
             onClick={handleClearProductFromCart}
           >
-            X
+            <X className="size-5"></X>
           </Button>
         </div>
         <div className="grid gap-2">

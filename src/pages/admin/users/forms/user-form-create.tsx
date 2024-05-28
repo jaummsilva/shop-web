@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserPlus } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -27,6 +28,8 @@ import { Separator } from '@/components/ui/separator'
 import { SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { queryClient } from '@/lib/react-query'
 import { validateImageFile } from '@/utils/validate-image'
+
+import type { UserCreateFormProps } from '../types/user-create-form-props'
 
 const userCreateSchema = z
   .object({
@@ -83,18 +86,15 @@ const userCreateSchema = z
 
 type UserCreateSchema = z.infer<typeof userCreateSchema>
 
-interface UserFormProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
-export function UserFormCreate({ onClose }: UserFormProps) {
+export function UserFormCreate({ onClose }: UserCreateFormProps) {
   const form = useForm<UserCreateSchema>({
     resolver: zodResolver(userCreateSchema),
     defaultValues: {
       role: 'MEMBER',
     },
   })
+
+  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null)
 
   async function onSubmit(data: UserCreateSchema) {
     try {
@@ -118,6 +118,7 @@ export function UserFormCreate({ onClose }: UserFormProps) {
         })
 
         form.reset()
+        setSelectedPhoto(null)
       }
     } catch {
       toast.error('Erro ao cadastrar usuário!')
@@ -261,11 +262,22 @@ export function UserFormCreate({ onClose }: UserFormProps) {
                     accept="image/jpg, image/jpeg, image/png"
                     placeholder="shadcn"
                     onChange={(e) => {
-                      const file = e.target.files?.[0]
+                      const file = e.target.files?.[0] || null // Use null if undefined
+                      setSelectedPhoto(file)
                       field.onChange(file)
                     }}
                   />
                 </FormControl>
+                {selectedPhoto && (
+                  <div className="mt-2 flex h-40 justify-center overflow-auto">
+                    <img
+                      src={URL.createObjectURL(selectedPhoto)}
+                      alt="Foto Selecionada"
+                      className="rounded object-cover"
+                      style={{ maxWidth: '100%' }}
+                    />
+                  </div>
+                )}
                 <FormMessage />
               </FormItem>
             )}

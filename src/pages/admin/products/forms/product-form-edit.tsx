@@ -288,11 +288,11 @@ export function ProductEditForm({
                     />
                   </FormControl>
                   {selectedPhotoPrincipal && (
-                    <div className="mt-2 h-40 overflow-auto">
+                    <div className="mt-2 flex h-40 justify-center overflow-auto">
                       <img
                         src={selectedPhotoPrincipal.previewUrl}
                         alt="Foto Principal"
-                        className="h-auto w-full rounded"
+                        className="rounded object-cover"
                         style={{ maxWidth: '100%' }}
                       />
                     </div>
@@ -320,13 +320,14 @@ export function ProductEditForm({
                     />
                   </FormControl>
                   {selectedPhotos.length > 0 && (
-                    <div className="mt-3 grid h-20 grid-cols-3 gap-4 overflow-auto">
+                    <div className="mt-3 flex h-20 w-full justify-center gap-4 overflow-auto">
                       {selectedPhotos.map((photo, index) => (
                         <img
                           key={index}
                           src={photo.previewUrl}
                           alt={`Photo ${index}`}
-                          className="h-full w-full rounded object-cover"
+                          className="rounded object-cover"
+                          style={{ maxWidth: '100%' }}
                         />
                       ))}
                     </div>

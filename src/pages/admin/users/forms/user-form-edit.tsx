@@ -34,13 +34,7 @@ import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
 import { validateImageFile } from '@/utils/validate-image'
 
-import type { UsersTableRowProps } from '../page'
-
-type UserEditFormProps = {
-  user: UsersTableRowProps['user']
-  isSheetOpen: boolean
-  setIsSheetOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+import type { UserEditFormProps } from '../types/user-edit-form-props'
 
 const userEditSchema = z
   .object({
@@ -100,10 +94,7 @@ const userEditSchema = z
 
 type UserEditSchema = z.infer<typeof userEditSchema>
 
-export const UserEditForm: React.FC<UserEditFormProps> = ({
-  user,
-  setIsSheetOpen,
-}) => {
+export function UserEditForm({ user, setIsSheetOpen }: UserEditFormProps) {
   const [photoFile, setPhotoFile] = useState<File | null>(null)
 
   const form = useForm<UserEditSchema>({
@@ -153,7 +144,7 @@ export const UserEditForm: React.FC<UserEditFormProps> = ({
   }
 
   return (
-    <SheetContent className="overflow-auto ">
+    <SheetContent className="overflow-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -290,13 +281,6 @@ export const UserEditForm: React.FC<UserEditFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Foto</FormLabel>
-                  {userImage && (
-                    <img
-                      src={userImage}
-                      alt="Foto do usuário"
-                      className="h-44 w-full"
-                    />
-                  )}
                   <FormControl>
                     <Input
                       type="file"
@@ -306,12 +290,35 @@ export const UserEditForm: React.FC<UserEditFormProps> = ({
                       onChange={(e) => {
                         const file = e.target.files?.[0]
                         if (file) {
-                          setPhotoFile(file) // Set the file to state
-                          field.onChange(file) // Trigger form field change
+                          setPhotoFile(file)
+                          field.onChange(file)
                         }
                       }}
                     />
                   </FormControl>
+                  {photoFile ? (
+                    <div className="mt-2 flex h-40 justify-center overflow-auto">
+                      <img
+                        src={URL.createObjectURL(photoFile)}
+                        alt={'Foto do Usuário'}
+                        className=" rounded object-cover"
+                        style={{ maxWidth: '100%' }}
+                      />
+                    </div>
+                  ) : userImage ? (
+                    <div className="mt-2 flex h-40 justify-center overflow-auto">
+                      <img
+                        src={userImage}
+                        alt="Foto do usuário"
+                        style={{ maxWidth: '100%' }}
+                        className="rounded object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-400">
+                      Sem foto selecionada
+                    </div>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
