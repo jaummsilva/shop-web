@@ -145,7 +145,18 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message) : children
+
+  let body: string
+
+  // Verifica se error é um array de erros e pega a mensagem do primeiro erro
+  if (Array.isArray(error) && error.length > 0) {
+    body = error[0]?.message
+  } else if (error && typeof error === 'object' && 'message' in error) {
+    // Se error é um objeto de erro, pega a mensagem diretamente
+    body = error?.message
+  } else {
+    body = children as string // Caso contrário, usa children como corpo da mensagem
+  }
 
   if (!body) {
     return null
@@ -162,6 +173,7 @@ const FormMessage = React.forwardRef<
     </p>
   )
 })
+
 FormMessage.displayName = 'FormMessage'
 
 export {

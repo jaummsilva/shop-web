@@ -9,16 +9,27 @@ export default function ProductDetailsPage() {
   const { productId } = useParams<{ productId: string }>()
   const navigate = useNavigate()
 
-  const { data: product } = useQuery<GetProductResponse>({
+  const { data: product, isLoading } = useQuery<GetProductResponse>({
     queryKey: ['store-products', productId || ''],
     queryFn: () => getProduct({ productId: productId || '' }),
+    enabled: !!productId, // Ensure the query only runs if productId is truthy
   })
 
   useEffect(() => {
-    if (!productId || !product) {
-      navigate('/')
+    async function fetchData() {
+      if (!productId || isLoading) return // Wait until productId is available and product is loaded
+
+      try {
+        await getProduct({ productId })
+      } catch (error) {
+        navigate('/')
+      }
     }
-  }, [productId, navigate, product])
+
+    fetchData()
+  }, [productId, isLoading, navigate])
+
+  if (!productId || isLoading) return null // Or render a loading indicator
 
   return (
     <div className="mb-24 mt-10 flex justify-center">

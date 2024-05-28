@@ -20,7 +20,6 @@ export function StoreHeader() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const [_, setSearchParams] = useSearchParams()
-  console.log(_)
 
   const [isSheetOpen, setIsSheetOpen] = useState(false) // State to control sheet open/close
   const windowSize = useWindowSize()

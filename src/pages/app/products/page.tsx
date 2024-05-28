@@ -17,14 +17,17 @@ export function StoreProducts() {
     })
 
   return (
-    <div className="relative mb-24 mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {isLoadingProducts ? (
-        <p>Loading...</p>
-      ) : (
-        result?.products?.map((product: Product) => (
-          <ProductCard key={product.id} product={product} />
-        ))
-      )}
+    <div className="mb-24 mt-20 flex flex-col gap-4">
+      <h1 className="text-3xl font-bold tracking-tight">Produtos</h1>
+      <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {isLoadingProducts ? (
+          <p>Loading...</p>
+        ) : (
+          result?.products?.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        )}
+      </div>
     </div>
   )
 }

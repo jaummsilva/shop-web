@@ -213,6 +213,7 @@ export function ProductFormCreate({ onClose }: ProductCreateFormProps) {
             )}
           />
         </div>
+
         <div className="w-full grid-cols-4 items-center gap-4">
           <FormField
             control={form.control}

@@ -25,18 +25,24 @@ export function Home() {
     content = <p>Loading...</p>
   } else if (result?.products?.length === 0) {
     content = (
-      <div className="relative mb-24 mt-20 flex justify-start">
-        <p className="text-justify text-2xl">
-          Desculpe, não encontramos o item procurado...
-        </p>
+      <div className="mb-24 mt-20 flex flex-col gap-4">
+        <h1 className="text-3xl font-bold tracking-tight">Home</h1>
+        <div className="relative mt-11 flex justify-start">
+          <p className="text-justify text-2xl">
+            Desculpe, não encontramos o item procurado...
+          </p>
+        </div>
       </div>
     )
   } else {
     content = (
-      <div className="relative mb-24 mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {result?.products?.map((product: Product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      <div className="mb-24 mt-20 flex flex-col gap-4">
+        <h1 className="text-3xl font-bold tracking-tight">Home</h1>
+        <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {result?.products?.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     )
   }
