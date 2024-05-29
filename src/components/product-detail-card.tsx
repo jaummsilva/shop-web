@@ -113,11 +113,11 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
           >
             <CarouselContent>
               <CarouselItem>
-                <div className="mt-2 flex h-52 items-center justify-center lg:h-96">
+                <div className="mt-2 flex h-52 justify-center lg:h-96">
                   <img
                     src={selectedPhotoPrincipal.previewUrl}
                     alt="Foto Principal"
-                    className="rounded object-cover"
+                    className="rounded"
                     style={{ maxWidth: '100%' }}
                   />
                 </div>
