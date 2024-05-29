@@ -105,7 +105,7 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
   return (
     <Card className="mt-4 w-full rounded-xl border dark:bg-black">
       <div className="flex w-full flex-col items-center gap-4 p-10 lg:flex-row lg:gap-24">
-        <div className="flex w-full items-center px-10">
+        <div className="flex w-full items-center justify-center px-10">
           <Carousel
             plugins={[plugin.current]}
             onMouseEnter={plugin.current.stop}
@@ -113,21 +113,21 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
           >
             <CarouselContent>
               <CarouselItem>
-                <div className="mt-2 flex h-96 items-center justify-center">
+                <div className="mt-2 flex h-52 items-center justify-center lg:h-96">
                   <img
                     src={selectedPhotoPrincipal.previewUrl}
                     alt="Foto Principal"
-                    className="rounded"
+                    className="rounded object-cover"
                     style={{ maxWidth: '100%' }}
                   />
                 </div>
               </CarouselItem>
               {selectedPhotos.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="mt-2 flex h-96 items-center justify-center">
+                  <div className="mt-2 flex h-52 justify-center overflow-auto lg:h-96">
                     <img
                       alt={`Product image ${index + 2}`}
-                      className="roundedr"
+                      className="rounded object-cover"
                       style={{ maxWidth: '100%' }}
                       src={image.previewUrl}
                     />
