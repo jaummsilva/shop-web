@@ -32,7 +32,9 @@ export function Cart({ cart, itemCount, priceTotal }: CartProps) {
 
       if (response.status === 201) {
         const orderId = response.data.orderId
-        toast.success(`Pedido ${orderId} feito com sucesso!`)
+        toast.success(`Pedido ${orderId} feito com sucesso!`, {
+          position: 'top-right',
+        })
 
         await queryClient.invalidateQueries({
           queryKey: ['cart'],

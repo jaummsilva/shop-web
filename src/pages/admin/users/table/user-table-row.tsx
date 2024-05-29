@@ -50,7 +50,7 @@ export function UserTableRow({ user }: UsersTableRowProps) {
       toast.error('Falha ao deletar o usuário!')
     }
   }
-
+  const roleText = user?.role === 'ADMIN' ? 'Administrador' : 'Membro'
   return (
     <TableRow>
       <TableCell>{user?.name}</TableCell>
@@ -61,7 +61,7 @@ export function UserTableRow({ user }: UsersTableRowProps) {
           variant={user?.role === 'ADMIN' ? 'secondary' : 'default'}
           className="p-2"
         >
-          {user?.role}
+          {roleText}
         </Badge>
       </TableCell>
 
