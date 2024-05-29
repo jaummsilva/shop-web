@@ -126,7 +126,7 @@ export function StoreHeader() {
               <SheetTitle>Menu</SheetTitle>
             </SheetHeader>
             <nav className="mt-5 flex flex-col gap-2">
-              <NavLink to="/admin">
+              <NavLink to="/">
                 <Home className="h-6 w-6" /> Início
               </NavLink>
               <Separator />

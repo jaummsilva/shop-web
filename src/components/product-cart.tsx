@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { X } from 'lucide-react'
+import { Minus, Plus, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { clearProductFromCart } from '@/api/app/clear-product-from-cart'
@@ -10,6 +10,8 @@ import { Card } from '@/components/ui/card'
 import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
 import { formatPrice } from '@/utils/format-price'
+
+import { Separator } from './ui/separator'
 
 interface CartItemProps {
   cartItem: { cartId: string; productId: string; quantity: number }
@@ -95,10 +97,19 @@ export default function ProductCart({ cartItem }: CartItemProps) {
   }, [product])
 
   return (
-    <Card className="mb-4 w-full max-w-sm rounded-xl border">
-      <div className="grid gap-4 p-4">
-        <div className="flex justify-between">
-          <div className="mt-2 flex h-40 justify-center overflow-auto">
+    <Card className="mb-4 w-full max-w-sm rounded-xl border-none dark:bg-black">
+      <div className="grid p-1">
+        <div className="flex justify-end">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleClearProductFromCart}
+          >
+            <X className="size-5"></X>
+          </Button>
+        </div>
+        <div className="flex justify-center">
+          <div className="mt-2 flex h-24 justify-center overflow-auto">
             <img
               src={selectedPhotoPrincipal.previewUrl}
               alt="Foto Principal"
@@ -106,36 +117,30 @@ export default function ProductCart({ cartItem }: CartItemProps) {
               style={{ maxWidth: '100%' }}
             />
           </div>
-          <Button
-            size="lg"
-            variant="ghost"
-            onClick={handleClearProductFromCart}
-          >
-            <X className="size-5"></X>
-          </Button>
         </div>
-        <div className="grid gap-2">
+        <div className="mt-3 grid gap-2">
           <h3 className="text-sm font-semibold md:text-base">
             {product && product.name}
           </h3>
-          <p className="text-sm font-semibold md:text-base">
+          <p className="md:text-md text-lg font-bold text-blue-600">
             {product && formatPrice(product.price)}
           </p>
         </div>
-        <div className="flex items-center justify-center gap-1">
-          <Button size="sm" onClick={decrementQuantity}>
-            -
+        <div className="mb-5 mt-2 flex items-center justify-center gap-1">
+          <Button size="sm" variant="default" onClick={decrementQuantity}>
+            <Minus className="size-4" />
           </Button>
           <input
             type="text"
             value={quantity}
-            className="size-9 w-12 rounded border text-center text-black"
+            className="size-9 w-12 bg-transparent text-center text-black dark:text-white"
             readOnly
           />
-          <Button size="sm" onClick={incrementQuantity}>
-            +
+          <Button size="sm" variant="default" onClick={incrementQuantity}>
+            <Plus className="size-4" />
           </Button>
         </div>
+        <Separator />
       </div>
     </Card>
   )

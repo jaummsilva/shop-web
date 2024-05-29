@@ -1,3 +1,4 @@
+import { Minus, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -10,6 +11,8 @@ import { useAuth } from '@/hooks/use-auth'
 import { queryClient } from '@/lib/react-query'
 import type { Product } from '@/type/product'
 import { formatPrice } from '@/utils/format-price'
+
+import { Separator } from './ui/separator'
 
 interface ProductCardProps {
   product: Product
@@ -70,12 +73,19 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   }, [product])
 
+  const MAX_DESCRIPTION_LENGTH = 50 // Defina o número máximo de caracteres aqui
+
+  const truncatedDescription =
+    product.description && product.description.length > MAX_DESCRIPTION_LENGTH
+      ? product.description.substring(0, MAX_DESCRIPTION_LENGTH) + '...'
+      : product.description
+
   return (
-    <Card className="mt-4 w-full max-w-xs rounded-xl border">
+    <Card className="mt-4 w-full max-w-[300px] rounded-xl border dark:bg-black">
       <div className="grid gap-4 p-10">
         <div className="">
           <Link to={`/product/${product.id}`}>
-            <div className="mt-2 flex h-40 justify-center overflow-auto">
+            <div className="mt-2 flex h-24 justify-center overflow-auto">
               <img
                 src={selectedPhotoPrincipal.previewUrl}
                 alt="Foto Principal"
@@ -85,38 +95,39 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           </Link>
         </div>
-        <div className="grid gap-4">
-          <h3 className="text-sm font-semibold md:text-lg">
-            <Link to={`/product/${product.id}`}>{product.name}</Link>
+        <div className="grid max-h-[150px] gap-2">
+          <h3 className="text-sm font-semibold md:text-base">
+            <Link to={`/product/${product.id}`}>
+              {product.name}
+              <span className="text-sm text-muted-foreground">
+                {truncatedDescription ? ` - ${truncatedDescription}` : ''}
+              </span>
+            </Link>
           </h3>
-          <p className="text-sm font-semibold md:text-base">
+          <p className="text-sm font-bold text-blue-600 md:text-2xl">
             {formatPrice(product.price)}
           </p>
-          <p className="text-sm md:text-base">
-            <Link to={`/product/${product.id}`}>
-              {product.description ?? ''}
-            </Link>
-          </p>
         </div>
-        <div className="flex items-center justify-center gap-1">
-          <Button size="sm" onClick={decrementQuantity}>
-            -
+        <Separator />
+        <div className="flex items-center justify-start gap-1">
+          <Button size="xs" variant="default" onClick={decrementQuantity}>
+            <Minus className="size-4" />
           </Button>
           <input
             type="text"
             value={quantity}
-            className="size-9 w-12 rounded border text-center text-black"
+            className="text-bold text-md size-9 bg-transparent text-center text-black dark:text-white"
             readOnly
           />
-          <Button size="sm" onClick={incrementQuantity}>
-            +
+          <Button size="xs" variant="default" onClick={incrementQuantity}>
+            <Plus className="size-4" />
           </Button>
         </div>
         {isAuthenticated() ? (
           <Button
             variant="blue"
             size="sm"
-            className="mt-2 w-full"
+            className="mt-2"
             onClick={handleAddToCart}
           >
             Adicione ao carrinho

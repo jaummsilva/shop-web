@@ -75,7 +75,7 @@ export function Cart({ cart, itemCount, priceTotal }: CartProps) {
       {isSheetOpen && (
         <Dialog>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetContent className="flex flex-col">
+            <SheetContent className="flex flex-col dark:bg-black">
               <div className="flex-grow overflow-auto">
                 <h2 className="text-s mb-4 text-xl font-bold">
                   Seu carrinho de compras

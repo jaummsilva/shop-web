@@ -1,4 +1,5 @@
 import Autoplay from 'embla-carousel-autoplay'
+import { Minus, Plus } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -18,6 +19,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from './ui/carousel'
+import { Separator } from './ui/separator'
 
 interface ProductCardProps {
   product: Product
@@ -101,7 +103,7 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
   }, [product])
 
   return (
-    <Card className="mt-4 w-full rounded-xl border">
+    <Card className="mt-4 w-full rounded-xl border dark:bg-black">
       <div className="flex w-full flex-col items-center gap-4 p-10 lg:flex-row lg:gap-24">
         <div className="flex w-full items-center px-10">
           <Carousel
@@ -111,7 +113,7 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
           >
             <CarouselContent>
               <CarouselItem>
-                <div className="mt-2 flex h-96 items-center justify-center overflow-auto">
+                <div className="mt-2 flex h-96 items-center justify-center">
                   <img
                     src={selectedPhotoPrincipal.previewUrl}
                     alt="Foto Principal"
@@ -122,7 +124,7 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
               </CarouselItem>
               {selectedPhotos.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="mt-2 flex h-96 items-center justify-center overflow-auto">
+                  <div className="mt-2 flex h-96 items-center justify-center">
                     <img
                       alt={`Product image ${index + 2}`}
                       className="roundedr"
@@ -137,32 +139,41 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
             <CarouselNext />
           </Carousel>
         </div>
-        <div className="flex w-full flex-col  space-y-10">
+        <Separator
+          orientation="vertical"
+          className="hidden h-[400px] bg-zinc-400 font-semibold lg:block"
+        />
+        <div className="flex w-full flex-col space-y-10">
           <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold md:text-2xl">
-              {product.name}
-            </h3>
-            <p className="text-sm font-semibold md:text-base">
+            <h3 className="text-sm font-semibold md:text-xl">{product.name}</h3>
+            <p className="text-sm font-bold text-blue-600 md:text-2xl">
               {formatPrice(product.price)}
             </p>
-            <p className="text-sm md:text-base">{product.description}</p>
+            <p className="text-sm text-muted-foreground md:text-lg">
+              {product.description}
+            </p>
           </div>
           <div className="flex items-start justify-start gap-1">
-            <Button size="sm" onClick={decrementQuantity}>
-              -
+            <Button size="sm" variant="default" onClick={decrementQuantity}>
+              <Minus className="size-4" />
             </Button>
             <input
               type="text"
               value={quantity}
-              className="size-9 w-12 rounded border text-center text-black"
+              className="text-bold size-9 w-12 bg-transparent text-center text-lg text-black dark:text-white"
               readOnly
             />
-            <Button size="sm" onClick={incrementQuantity}>
-              +
+            <Button size="sm" variant="default" onClick={incrementQuantity}>
+              <Plus className="size-4" />
             </Button>
           </div>
           {isAuthenticated() ? (
-            <Button size="sm" className="mt-2 w-56" onClick={handleAddToCart}>
+            <Button
+              size="lg"
+              variant="blue"
+              className="mt-2 w-56"
+              onClick={handleAddToCart}
+            >
               Adicione ao carrinho
             </Button>
           ) : (

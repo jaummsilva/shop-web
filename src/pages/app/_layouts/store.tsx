@@ -29,9 +29,9 @@ export function StoreLayout() {
   })
 
   return (
-    <div className="relative  min-h-screen flex-col antialiased">
+    <div className="min-h-screen bg-white antialiased dark:bg-black">
       <StoreHeader />
-      <div className="relative flex flex-1 flex-col gap-4 p-8 pt-6">
+      <div className="h-full gap-4 p-8 pt-6">
         <Outlet />
       </div>
       <StoreFooter />
