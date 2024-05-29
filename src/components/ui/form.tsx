@@ -4,6 +4,7 @@ import * as React from 'react'
 import {
   Controller,
   ControllerProps,
+  type FieldError,
   FieldPath,
   FieldValues,
   FormProvider,
@@ -146,14 +147,14 @@ const FormMessage = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
 
-  let body: string
+  let body: string | undefined
 
   // Verifica se error é um array de erros e pega a mensagem do primeiro erro
   if (Array.isArray(error) && error.length > 0) {
     body = error[0]?.message
   } else if (error && typeof error === 'object' && 'message' in error) {
     // Se error é um objeto de erro, pega a mensagem diretamente
-    body = error?.message
+    body = (error as FieldError).message
   } else {
     body = children as string // Caso contrário, usa children como corpo da mensagem
   }

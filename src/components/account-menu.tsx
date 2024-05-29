@@ -32,7 +32,6 @@ export function AccountMenu() {
   } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
-    refetchOnWindowFocus: false, // Evita refetch ao focar na janela
   })
 
   useEffect(() => {
