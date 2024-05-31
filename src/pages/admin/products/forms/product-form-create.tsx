@@ -111,7 +111,7 @@ export function ProductFormCreate({ onClose }: ProductCreateFormProps) {
         setSelectedPhotos([])
       }
     } catch {
-      toast.error('Erro ao cadastrar usuário!')
+      toast.error('Erro ao cadastrar produto!')
     }
   }
 

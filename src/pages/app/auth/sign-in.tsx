@@ -68,44 +68,42 @@ export function SignIn() {
       <Helmet>
         <title>Shop</title>
       </Helmet>
-      <div className="p-8">
-        <div className="flex w-[350px] flex-col justify-center gap-6">
-          <div className="flex flex-col gap-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Acessar loja
-            </h1>
-          </div>
-          <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                {...register('email')}
-                id="email"
-                type="email"
-                placeholder="Insira seu e-mail"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Senha</Label>
-              <Input
-                {...register('password')}
-                id="password"
-                type="password"
-                placeholder="Insira sua senha"
-                required
-              />
-            </div>
-            <Button
-              disabled={isSubmitting}
-              variant="default"
-              type="submit"
-              className="w-full"
-            >
-              Acessar
-            </Button>
-          </form>
+      <div className="flex w-[350px] flex-col justify-center gap-6">
+        <div className="flex flex-col gap-2 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Acessar loja
+          </h1>
         </div>
+        <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              {...register('email')}
+              id="email"
+              type="email"
+              placeholder="Insira seu e-mail"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Senha</Label>
+            <Input
+              {...register('password')}
+              id="password"
+              type="password"
+              placeholder="Insira sua senha"
+              required
+            />
+          </div>
+          <Button
+            disabled={isSubmitting}
+            variant="default"
+            type="submit"
+            className="w-full"
+          >
+            Acessar
+          </Button>
+        </form>
       </div>
     </div>
   )

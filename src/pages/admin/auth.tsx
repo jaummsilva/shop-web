@@ -2,8 +2,8 @@ import { Outlet } from 'react-router-dom'
 
 export function AdminAuthLayout() {
   return (
-    <div className="grid min-h-screen grid-cols-2 antialiased">
-      <div className="border-right flex h-full flex-col justify-between border-foreground/5 bg-muted text-muted-foreground">
+    <div className="grid min-h-screen grid-cols-1 antialiased lg:grid-cols-2">
+      <div className="border-right hidden h-full flex-col justify-between border-foreground/5 bg-muted text-muted-foreground lg:flex">
         <img
           src="/imagem_admin_login.jpg"
           alt="Admin Login"
