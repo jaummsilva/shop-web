@@ -13,8 +13,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
 
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Dialog } from './ui/dialog'
 import { Skeleton } from './ui/skeleton'
 
@@ -41,9 +43,18 @@ export function AdminAccountMenu() {
     navigate('/admin/sign-in')
   }
 
+  let imageUrl = ''
+  if (profile) {
+    imageUrl = env.VITE_API_URL.concat(profile.user.imageUrl)
+  }
+
   return (
     <>
       <Dialog>
+        <Avatar>
+          <AvatarImage className="h-10" src={imageUrl} />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

@@ -10,6 +10,7 @@ export async function getAdminProfile() {
       name: string
       email: string
       role: 'ADMIN' | 'MEMBER'
+      imageUrl: string
     }
   }>('/profile', {
     headers: {
