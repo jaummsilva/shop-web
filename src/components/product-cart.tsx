@@ -11,8 +11,6 @@ import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
 import { formatPrice } from '@/utils/format-price'
 
-import { Separator } from './ui/separator'
-
 interface CartItemProps {
   cartItem: { cartId: string; productId: string; quantity: number }
 }
@@ -140,7 +138,6 @@ export default function ProductCart({ cartItem }: CartItemProps) {
             <Plus className="size-4" />
           </Button>
         </div>
-        <Separator />
       </div>
     </Card>
   )
