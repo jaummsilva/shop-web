@@ -38,6 +38,7 @@ export function AdminLayout() {
       api.interceptors.response.eject(interceptorId)
     }
   }, [navigate])
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-white antialiased dark:bg-black">
       <AdminHeader />

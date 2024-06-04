@@ -11,6 +11,8 @@ export async function getProfile() {
       email: string
       role: 'ADMIN' | 'MEMBER'
       imageUrl: string
+      birthdate: Date
+      phone: string
     }
   }>('/profile', {
     headers: {

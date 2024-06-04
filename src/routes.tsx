@@ -11,6 +11,7 @@ import { StoreLayout } from './pages/app/_layouts/store'
 import { NotFound } from './pages/app/404'
 import { AuthLayout } from './pages/app/auth'
 import { SignIn } from './pages/app/auth/sign-in'
+import ConfigLayout from './pages/app/config/layout'
 import { Home } from './pages/app/home/page'
 import ProductDetailsPage from './pages/app/products/details'
 import { StoreProducts } from './pages/app/products/page'
@@ -34,7 +35,8 @@ export const router = createBrowserRouter([
     element: <StoreLayout />,
     children: [
       { path: 'products', element: <StoreProducts /> },
-      { path: 'product/:productId', element: <ProductDetailsPage /> }, // Rota para detalhes do produto com ID dinâmico
+      { path: 'product/:productId', element: <ProductDetailsPage /> },
+      { path: 'config', element: <ConfigLayout /> },
       { path: '/', element: <Home /> },
     ],
   },

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
-import { ChevronDown, LogOut } from 'lucide-react'
+import { ChevronDown, Cog, LogOut } from 'lucide-react'
 import nookies from 'nookies'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { getProfile } from '@/api/app/get-profile'
 import { Button } from '@/components/ui/button'
@@ -110,6 +110,12 @@ export function AccountMenu() {
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem asChild className="cursor-pointer gap-1.5 ">
+                <Link to="/config">
+                  <Cog className="h-4 w-4" />
+                  <span>Configurações</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 asChild
                 className="cursor-pointer gap-1.5 text-rose-500 dark:text-rose-400"
