@@ -204,6 +204,9 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   placeholder="Repita a senha"
                 />
               </FormControl>
+              <FormDescription>
+                Repita a senha para que consiga alterar.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -218,6 +221,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                 <DatePickerDemo date={field.value} setDate={field.onChange} />
               </FormControl>
               <FormMessage />
+              <FormDescription>Essa é sua data de nascimento.</FormDescription>
             </FormItem>
           )}
         />
@@ -235,6 +239,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   placeholder="Digite o telefone"
                 />
               </FormControl>
+              <FormDescription>Essa é seu telefone.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -244,7 +249,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
           name="photoPath"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Foto</FormLabel>
+              <FormLabel>Foto de perfil</FormLabel>
               <FormControl>
                 <Input
                   type="file"
@@ -260,6 +265,10 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   }}
                 />
               </FormControl>
+              <FormDescription>
+                Essa é a sua foto de perfil, pode ser alterada a qualquer
+                momento.
+              </FormDescription>
               {photoFile ? (
                 <div className="mt-2 flex h-40 justify-center overflow-auto">
                   <img
@@ -270,7 +279,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   />
                 </div>
               ) : userImage ? (
-                <div className="mt-2 flex h-40 justify-center overflow-auto">
+                <div className="flex h-40 justify-center overflow-auto">
                   <img
                     src={userImage}
                     alt="Foto do usuário"

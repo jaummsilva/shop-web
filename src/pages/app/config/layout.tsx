@@ -5,7 +5,7 @@ import SidebarNav from '@/components/sidebar-nav'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/use-auth'
 
-import { OrderPage } from './orders/page'
+import OrdersPage from './orders/page'
 import ProfilePage from './profile/page'
 
 const sidebarNavItems = [
@@ -52,7 +52,7 @@ export default function ConfigLayout() {
         </aside>
         <div className="flex-1">
           {activeItem === '/config/profile' && <ProfilePage />}
-          {activeItem === '/config/orders' && <OrderPage />}
+          {activeItem === '/config/orders' && <OrdersPage />}
         </div>
       </div>
     </div>
