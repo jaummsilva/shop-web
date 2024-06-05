@@ -12,7 +12,7 @@ import { queryClient } from '@/lib/react-query'
 import type { Product } from '@/type/product'
 import { formatPrice } from '@/utils/format-price'
 
-import { Separator } from './ui/separator'
+import { Separator } from '../ui/separator'
 
 interface ProductCardProps {
   product: Product

@@ -4,7 +4,7 @@ import nookies from 'nookies'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { AdminHeader } from '@/components/header-admin'
+import { AdminHeader } from '@/components/admin/header-admin'
 import { api } from '@/lib/axios'
 
 interface DecodedToken {

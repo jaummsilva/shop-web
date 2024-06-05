@@ -8,10 +8,10 @@ import { queryClient } from '@/lib/react-query'
 import type { Cart } from '@/type/cart'
 import { formatPrice } from '@/utils/format-price'
 
+import { Button } from '../ui/button'
+import { Dialog } from '../ui/dialog'
+import { Sheet, SheetContent, SheetFooter } from '../ui/sheet'
 import ProductCart from './product-cart'
-import { Button } from './ui/button'
-import { Dialog } from './ui/dialog'
-import { Sheet, SheetContent, SheetFooter } from './ui/sheet'
 
 interface CartProps {
   cart: Cart | null
@@ -32,12 +32,13 @@ export function Cart({ cart, itemCount, priceTotal }: CartProps) {
 
       if (response.status === 201) {
         const orderId = response.data.orderId
-        toast.success(`Pedido ${orderId} feito com sucesso!`, {
-          position: 'top-right',
-        })
+        toast.success(`Pedido ${orderId} feito com sucesso!`)
 
         await queryClient.invalidateQueries({
           queryKey: ['cart'],
+        })
+        await queryClient.invalidateQueries({
+          queryKey: ['orders'],
         })
         setIsSheetOpen(false)
       }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import SidebarNav from '@/components/sidebar-nav'
+import SidebarNav from '@/components/app/sidebar-nav'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/use-auth'
 

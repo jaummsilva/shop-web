@@ -30,7 +30,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         <div className="text-md flex w-full justify-between border-b p-2 font-semibold tracking-tighter">
           <p>{formattedDateString}</p>
 
-          <p className="">Total de itens: {order.orderItems.length}</p>
+          <p>Total de itens: {order.orderItems.length}</p>
         </div>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center justify-between gap-3 text-lg">

@@ -8,17 +8,18 @@ import { useAuth } from '@/hooks/use-auth'
 import { useWindowSize } from '@/hooks/use-window-size'
 import type { Cart as CartType } from '@/type/cart'
 
+import { NavLink } from '../nav-link'
+import { ThemeToggle } from '../theme/theme-toggle'
+import { Input } from '../ui/input'
+import { Separator } from '../ui/separator'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet'
 import { AccountMenu } from './account-menu'
 import { Cart } from './cart'
-import { NavLink } from './nav-link'
-import { ThemeToggle } from './theme/theme-toggle'
-import { Input } from './ui/input'
-import { Separator } from './ui/separator'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet'
 
 export function StoreHeader() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setSearchParams] = useSearchParams()
 
   const [isSheetOpen, setIsSheetOpen] = useState(false) // State to control sheet open/close

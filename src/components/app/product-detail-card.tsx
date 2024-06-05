@@ -18,8 +18,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from './ui/carousel'
-import { Separator } from './ui/separator'
+} from '../ui/carousel'
+import { Separator } from '../ui/separator'
 
 interface ProductCardProps {
   product: Product

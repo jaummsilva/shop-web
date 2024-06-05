@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-import { StoreFooter } from '@/components/footer-store'
-import { StoreHeader } from '@/components/header-store'
+import { StoreFooter } from '@/components/app/footer-store'
+import { StoreHeader } from '@/components/app/header-store'
 
 export function StoreLayout() {
   return (

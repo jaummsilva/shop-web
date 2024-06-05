@@ -1,9 +1,12 @@
+import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Check, Trash, X } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { deleteUser } from '@/api/admin/delete-user'
+import { getAdminProfile } from '@/api/admin/get-admin-profile'
 import { updateUserStatus } from '@/api/admin/update-status-user'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -14,6 +17,20 @@ import { UserSheetEdit } from '../components/user-sheet-edit'
 import type { UsersTableRowProps } from '../page'
 
 export function UserTableRow({ user }: UsersTableRowProps) {
+  const navigate = useNavigate()
+
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      try {
+        const result = await getAdminProfile()
+        return result.data
+      } catch (error) {
+        navigate('/admin/sign-in')
+      }
+    },
+  })
+
   async function handleUpdateUserStatus(newStatus: 'S' | 'N') {
     try {
       const response = await updateUserStatus({
@@ -34,22 +51,27 @@ export function UserTableRow({ user }: UsersTableRowProps) {
   }
 
   async function handleDeleteUser() {
-    try {
-      const response = await deleteUser({
-        userId: user.id,
-      })
-
-      if (response.status === 204) {
-        // Atualização bem sucedida
-        toast.success(`Usuário ${user.name} deletado com sucesso!`)
-        await queryClient.invalidateQueries({
-          queryKey: ['users'],
+    if (profile?.user.email === user.email) {
+      toast.error('Você não pode deletar seu próprio usuário!')
+    } else {
+      try {
+        const response = await deleteUser({
+          userId: user.id,
         })
+
+        if (response.status === 204) {
+          // Atualização bem sucedida
+          toast.success(`Usuário ${user.name} deletado com sucesso!`)
+          await queryClient.invalidateQueries({
+            queryKey: ['users'],
+          })
+        }
+      } catch (error) {
+        toast.error('Falha ao deletar o usuário!')
       }
-    } catch (error) {
-      toast.error('Falha ao deletar o usuário!')
     }
   }
+
   const roleText = user?.role === 'ADMIN' ? 'Administrador' : 'Membro'
   return (
     <TableRow>

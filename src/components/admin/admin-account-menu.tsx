@@ -16,9 +16,9 @@ import {
 import { env } from '@/env'
 import { queryClient } from '@/lib/react-query'
 
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Dialog } from './ui/dialog'
-import { Skeleton } from './ui/skeleton'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Dialog } from '../ui/dialog'
+import { Skeleton } from '../ui/skeleton'
 
 export function AdminAccountMenu() {
   const navigate = useNavigate()

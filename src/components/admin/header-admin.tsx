@@ -1,13 +1,28 @@
-import { Home, User, UtensilsCrossed } from 'lucide-react'
+import { Home, ListChecks, User, UtensilsCrossed } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { useWindowSize } from '@/hooks/use-window-size'
 
+import { NavLink } from '../nav-link'
+import { ThemeToggle } from '../theme/theme-toggle'
+import { Separator } from '../ui/separator'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet'
 import { AdminAccountMenu } from './admin-account-menu'
-import { NavLink } from './nav-link'
-import { ThemeToggle } from './theme/theme-toggle'
-import { Separator } from './ui/separator'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet'
+
+const navLinks = [
+  { to: '/admin', icon: <Home className="h-6 w-6" />, text: 'Início' },
+  {
+    to: '/admin/products',
+    icon: <UtensilsCrossed className="h-6 w-6" />,
+    text: 'Produtos',
+  },
+  {
+    to: '/admin/orders',
+    icon: <ListChecks className="h-6 w-6" />,
+    text: 'Pedidos',
+  },
+  { to: '/admin/users', icon: <User className="h-6 w-6" />, text: 'Usuários' },
+]
 
 export function AdminHeader() {
   const [isSheetOpen, setIsSheetOpen] = useState(false) // State to control sheet open/close
@@ -55,15 +70,11 @@ export function AdminHeader() {
         <Separator orientation="vertical" className="h-6" />
 
         <nav className="ml-2 hidden items-center space-x-4 lg:flex lg:space-x-6">
-          <NavLink to="/admin">
-            <Home className="h-6 w-6" /> Início
-          </NavLink>
-          <NavLink to="/admin/products">
-            <UtensilsCrossed className="h-6 w-6" /> Produtos
-          </NavLink>
-          <NavLink to="/admin/users">
-            <User className="h-6 w-6" /> Usuários
-          </NavLink>
+          {navLinks.map((link, index) => (
+            <NavLink key={index} to={link.to}>
+              {link.icon} {link.text}
+            </NavLink>
+          ))}
         </nav>
         <div className="ml-auto flex cursor-pointer items-center gap-2">
           <ThemeToggle />

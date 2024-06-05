@@ -6,7 +6,7 @@ import {
   getStoreProducts,
   type GetStoreProductsResponse,
 } from '@/api/app/get-store-products'
-import ProductCard from '@/components/product-card'
+import ProductCard from '@/components/app/product-card'
 import type { Product } from '@/type/product'
 
 export function Home() {

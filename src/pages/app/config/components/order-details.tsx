@@ -42,7 +42,7 @@ export function OrderDetails({ order }: OrderDetailsProps) {
           </p>
         </DialogDescription>
       </DialogHeader>
-      <div className="space-y-6">
+      <div className="max-h-[600px] space-y-6 overflow-auto">
         <Table>
           <TableHeader>
             <TableRow className="border-none">

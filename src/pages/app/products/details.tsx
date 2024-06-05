@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { getProduct, type GetProductResponse } from '@/api/app/get-product'
-import ProductDetailCard from '@/components/product-detail-card'
+import ProductDetailCard from '@/components/app/product-detail-card'
 
 export default function ProductDetailsPage() {
   const { productId } = useParams<{ productId: string }>()
