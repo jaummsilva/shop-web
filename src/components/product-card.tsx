@@ -96,7 +96,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Link>
         </div>
         <div className="flex flex-col items-start justify-between">
-          <h3 className="text-sm font-semibold md:text-base">
+          <h3 className="text-sm font-semibold tracking-tighter md:text-base">
             <Link to={`/product/${product.id}`}>
               {product.name}
               <span className="text-sm text-muted-foreground">
@@ -104,7 +104,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               </span>
             </Link>
           </h3>
-          <p className="mt-2 text-sm font-bold text-blue-600 md:text-2xl">
+          <p className="mt-2 text-sm font-bold tracking-tighter text-blue-600 md:text-2xl">
             {formatPrice(product.price)}
           </p>
         </div>
@@ -129,13 +129,13 @@ export default function ProductCard({ product }: ProductCardProps) {
               <Button
                 variant="blue"
                 size="sm"
-                className="w-full"
+                className="w-full tracking-tighter"
                 onClick={handleAddToCart}
               >
                 Adicionar ao carrinho
               </Button>
             ) : (
-              <p className="w-full text-center text-sm text-gray-600">
+              <p className="w-full text-center text-sm tracking-tighter text-gray-600">
                 Faça login para adicionar ao carrinho
               </p>
             )}

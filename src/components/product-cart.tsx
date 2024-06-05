@@ -117,10 +117,10 @@ export default function ProductCart({ cartItem }: CartItemProps) {
           </div>
         </div>
         <div className="mt-3 grid gap-2">
-          <h3 className="text-sm font-semibold md:text-base">
+          <h3 className="text-sm font-semibold tracking-tighter md:text-base">
             {product && product.name}
           </h3>
-          <p className="md:text-md text-lg font-bold text-blue-600">
+          <p className="md:text-md text-lg font-bold tracking-tighter text-blue-600">
             {product && formatPrice(product.price)}
           </p>
         </div>

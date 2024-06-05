@@ -145,11 +145,13 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
         />
         <div className="flex w-full flex-col space-y-10">
           <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold md:text-xl">{product.name}</h3>
-            <p className="text-sm font-bold text-blue-600 md:text-2xl">
+            <h3 className="text-sm font-semibold tracking-tighter md:text-xl">
+              {product.name}
+            </h3>
+            <p className="text-sm font-bold tracking-tighter text-blue-600 md:text-2xl">
               {formatPrice(product.price)}
             </p>
-            <p className="text-sm text-muted-foreground md:text-lg">
+            <p className="text-sm tracking-tighter text-muted-foreground md:text-lg">
               {product.description}
             </p>
           </div>
@@ -171,13 +173,13 @@ export default function ProductDetailCard({ product }: ProductCardProps) {
             <Button
               size="lg"
               variant="blue"
-              className="mt-2 w-56"
+              className="mt-2 w-56 tracking-tighter"
               onClick={handleAddToCart}
             >
               Adicione ao carrinho
             </Button>
           ) : (
-            <p className="mt-2 w-full text-start text-sm text-gray-600">
+            <p className="mt-2 w-full text-start text-sm tracking-tighter text-gray-600">
               Faça login para adicionar ao carrinho
             </p>
           )}
