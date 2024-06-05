@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 import { updateProduct } from '@/api/admin/update-product'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -70,6 +71,7 @@ const productEditSchema = z.object({
     )
     .max(3, 'Máximo de 3 fotos permitidas.')
     .optional(),
+  deleteImagesOptional: z.boolean().default(false).optional(),
 })
 
 type ProductEditSchema = z.infer<typeof productEditSchema>
@@ -86,6 +88,8 @@ export function ProductEditForm({
   const [selectedPhotoPrincipal, setSelectedPhotoPrincipal] =
     useState<ImageFile | null>(null)
   const [selectedPhotos, setSelectedPhotos] = useState<ImageFile[]>([])
+  const [selectedOptionalPhotos, setSelectedOptionalPhotos] =
+    useState<boolean>(false)
 
   const form = useForm<ProductEditSchema>({
     resolver: zodResolver(productEditSchema),
@@ -95,32 +99,6 @@ export function ProductEditForm({
       price: product.price.toString(),
     },
   })
-
-  useEffect(() => {
-    if (product.productImages.length > 0) {
-      const principalImage = product.productImages.find(
-        (img) => img.isPrincipal,
-      )
-      if (principalImage) {
-        const imageUrl = principalImage.imageUrl // Substitua por sua lógica para obter a URL correta
-        setSelectedPhotoPrincipal({
-          file: new File([], ''), // Aqui você pode definir o arquivo como necessário
-          previewUrl: env.VITE_API_URL.concat(imageUrl),
-        })
-      }
-
-      const otherImages = product.productImages.filter(
-        (img) => !img.isPrincipal,
-      )
-      if (otherImages.length > 0) {
-        const files = otherImages.map((img) => ({
-          file: new File([], ''),
-          previewUrl: env.VITE_API_URL.concat(img.imageUrl),
-        }))
-        setSelectedPhotos(files)
-      }
-    }
-  }, [product])
 
   async function onSubmit(data: ProductEditSchema) {
     try {
@@ -143,15 +121,25 @@ export function ProductEditForm({
         }
       }
 
+      formData.append(
+        'deleteImagesOptional',
+        data.deleteImagesOptional ? 'Y' : 'N',
+      )
+
       const response = await updateProduct(formData)
 
       if (response.status === 204) {
+        if (data.deleteImagesOptional) {
+          setSelectedPhotos([])
+          form.setValue('photos', [])
+        }
         toast.success('Produto editado com sucesso!')
         setIsSheetOpen(false)
 
         await queryClient.invalidateQueries({
           queryKey: ['products'],
         })
+        setSelectedOptionalPhotos(false)
       }
     } catch {
       toast.error('Erro ao editar produto!')
@@ -178,13 +166,52 @@ export function ProductEditForm({
         file,
         previewUrl: URL.createObjectURL(file),
       }))
+
       setSelectedPhotos(selected)
-      form.setValue(
-        'photos',
-        selected.map((item) => item.file),
-      )
+
+      if (selected.length === 0) {
+        setSelectedOptionalPhotos(false)
+      } else {
+        form.setValue(
+          'photos',
+          selected.map((item) => item.file),
+        )
+        form.setValue('deleteImagesOptional', false)
+        setSelectedOptionalPhotos(true)
+      }
     }
   }
+
+  useEffect(() => {
+    if (product.productImages.length > 0) {
+      const principalImage = product.productImages.find(
+        (img) => img.isPrincipal,
+      )
+      if (principalImage) {
+        const imageUrl = principalImage.imageUrl
+        setSelectedPhotoPrincipal({
+          file: new File([], ''),
+          previewUrl: env.VITE_API_URL.concat(imageUrl),
+        })
+      }
+
+      const otherImages = product.productImages.filter(
+        (img) => !img.isPrincipal,
+      )
+      if (otherImages.length > 0) {
+        const files = otherImages.map((img) => ({
+          file: new File([], ''),
+          previewUrl: env.VITE_API_URL.concat(img.imageUrl),
+        }))
+        setSelectedPhotos(files)
+      } else {
+        setSelectedPhotos([])
+      }
+      setSelectedOptionalPhotos(false)
+      form.setValue('deleteImagesOptional', false)
+      form.setValue('photos', [])
+    }
+  }, [product])
 
   return (
     <SheetContent className="overflow-auto">
@@ -332,6 +359,27 @@ export function ProductEditForm({
                       ))}
                     </div>
                   )}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-full grid-cols-4 items-center gap-4">
+            <FormField
+              control={form.control}
+              name="deleteImagesOptional"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-right">
+                    Excluir imagens opcionais?
+                  </FormLabel>
+                  <FormControl className="ml-2">
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={selectedOptionalPhotos}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
