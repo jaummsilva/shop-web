@@ -25,22 +25,24 @@ export default function OrderCard({ order }: OrderCardProps) {
   const formattedDateString = `${day} de ${month} de ${year}`
 
   return (
-    <Card className="bg-muted ">
+    <Card className="bg-muted dark:bg-black">
       <CardContent className="flex w-full flex-col gap-4">
-        <div className="text-md w-full border-b p-2 font-semibold tracking-tighter">
-          {formattedDateString}
+        <div className="text-md flex w-full justify-between border-b p-2 font-semibold tracking-tighter">
+          <p>{formattedDateString}</p>
+
+          <p className="">Total de itens: {order.orderItems.length}</p>
         </div>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center justify-between gap-3 text-lg">
-            <p className="text-sm font-bold text-blue-800 md:text-2xl">
-              {formatPrice(order.totalPrice)}
+            <p className="text-sm font-normal text-muted-foreground md:text-2xl">
+              {order.id}
             </p>
             <Separator
               orientation="vertical"
-              className="h-5 bg-black text-black"
+              className="h-5 bg-black dark:bg-white"
             />
-            <p className="font-semibold text-muted-foreground">
-              {order.orderItems.length} iten(s)
+            <p className="text-sm font-semibold text-blue-800 md:text-2xl">
+              {formatPrice(order.totalPrice)}
             </p>
           </div>
           <div>
