@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -211,7 +212,7 @@ export function ProductEditForm({
       form.setValue('deleteImagesOptional', false)
       form.setValue('photos', [])
     }
-  }, [product])
+  }, [form, product])
 
   return (
     <SheetContent className="overflow-auto">
@@ -380,6 +381,10 @@ export function ProductEditForm({
                       disabled={selectedOptionalPhotos}
                     />
                   </FormControl>
+                  <FormDescription>
+                    Campo usado para que caso queira remover todas as fotos
+                    opcionais que já existem do produto.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
